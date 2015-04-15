@@ -2,7 +2,7 @@
 Leaflet.Deflate
 ===============
 
-Extends [Leaflet.Map](http://leafletjs.com/reference.html#map-class) to automatically substitute polygons and lines with markers when their screen size falls below a defined threshold.
+Extends `Leaflet.Map <http://leafletjs.com/reference.html#map-class>`_ to automatically substitute polygons and lines with markers when their screen size falls below a defined threshold.
 
 Usage
 =====
