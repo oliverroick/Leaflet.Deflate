@@ -1,0 +1,20 @@
+{
+  "name": "Leaflet.Deflate",
+  "author": "Oliver Roick",
+  "version": "1.0.0",
+  "description": "Extends Leaflet.Map to automatically substitute polygons and lines with markers when their screen size falls below a defined threshold.",
+  "license": "Apache 2.0",
+  "repository": "git://github.com/oliverroick/Leaflet.Deflate",
+  "main": "src/Leaflet.Deflate.js",
+  "engines": {
+    "node": "*"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-mocha-phantomjs": "^0.6.1",
+    "gulp-uglify": "^1.2.0",
+    "mocha": "^2.2.4",
+    "should": "^6.0.0"
+  }
+}
