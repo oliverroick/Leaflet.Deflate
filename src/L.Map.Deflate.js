@@ -5,30 +5,30 @@ L.Map.Deflate = L.Map.extend({
 
     removedPaths: [],
 
-    isCollapsed: function(path, zoom) {
+    isCollapsed: function (path, zoom) {
         var bounds = path.getBounds();
 
-        var ne_px = this.project(bounds._northEast, zoom);
-        var sw_px = this.project(bounds._southWest, zoom);
+        var ne_px = this.project(bounds.getNorthEast(), zoom);
+        var sw_px = this.project(bounds.getSouthWest(), zoom);
 
         var width = ne_px.x - sw_px.x;
         var height = sw_px.y - ne_px.y;
-        return (height < this.options.minSize || width < this.options.minSize)
+        return (height < this.options.minSize || width < this.options.minSize);
     },
 
-    getZoomThreshold: function(path) {
+    getZoomThreshold: function (path) {
         var zoomThreshold = null;
         var zoom = this.getZoom();
         if (this.isCollapsed(path, this.getZoom())) {
             while (!zoomThreshold) {
-                zoom++;
+                zoom += 1;
                 if (!this.isCollapsed(path, zoom)) {
                     zoomThreshold = zoom - 1;
                 }
             }
         } else {
             while (!zoomThreshold) {
-                zoom--;
+                zoom -= 1;
                 if (this.isCollapsed(path, zoom)) {
                     zoomThreshold = zoom;
                 }
@@ -37,7 +37,7 @@ L.Map.Deflate = L.Map.extend({
         return zoomThreshold;
     },
 
-    initialize: function(id, options) {
+    initialize: function (id, options) {
         L.Map.prototype.initialize.call(this, id, options);
         options = L.setOptions(this, options);
 
@@ -57,19 +57,16 @@ L.Map.Deflate = L.Map.extend({
             }
         });
 
-        this.on('zoomend', function() {
-            var removedTemp = []
+        this.on('zoomend', function () {
+            var removedTemp = [];
 
-            for (var key in this._layers) {
-                if (this._layers.hasOwnProperty(key)) {
-                    var feature = this._layers[key];
-                    if (this.getZoom() <= feature.zoomThreshold) {
-                        this.removeLayer(feature);
-                        this.addLayer(feature.marker);
-                        removedTemp.push(feature);
-                    }
+            this.eachLayer(function (feature) {
+                if (this.getZoom() <= feature.zoomThreshold) {
+                    this.removeLayer(feature);
+                    this.addLayer(feature.marker);
+                    removedTemp.push(feature);
                 }
-            }
+            }, this);
 
             for (var i = 0; i < this.removedPaths.length; i++) {
                 var feature = this.removedPaths[i];
