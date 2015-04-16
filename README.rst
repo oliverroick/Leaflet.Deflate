@@ -2,6 +2,9 @@
 Leaflet.Deflate
 ===============
 
+.. image:: https://travis-ci.org/oliverroick/Leaflet.Deflate.svg
+    :target: https://travis-ci.org/oliverroick/Leaflet.Deflate
+
 Extends `Leaflet.Map <http://leafletjs.com/reference.html#map-class>`_ to automatically substitute polygons and lines with markers when their screen size falls below a defined threshold.
 
 .. image:: https://cloud.githubusercontent.com/assets/159510/7164588/090c06fe-e399-11e4-956d-0283ef7e69cf.gif
