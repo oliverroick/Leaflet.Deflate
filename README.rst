@@ -20,6 +20,27 @@ Initialize along with the `minSize`. `minSize` defines the minimum width and hei
 
 All options and methods from Leaflet.Map are inherited.
 
+Developing
+==========
+
+You'll need to install the dev dependencies to test and write the distribution file.
+
+.. code-block::
+
+    npm install
+    
+To run tests:
+
+.. code-block::
+
+    gulp test
+    
+To write a minified JS into dist:
+
+.. code-block::
+
+    gulp dist
+
 Author
 ======
 
