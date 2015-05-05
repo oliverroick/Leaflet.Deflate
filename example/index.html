@@ -38,6 +38,11 @@
             fillOpacity: 0.5
         }).addTo(map);
 
+        var polyline = L.polyline([
+            [51.52, -0.05],
+            [51.53, -0.10],
+        ], {color: 'red'}).addTo(map);
+
         var marker = L.marker([51.5, -0.09]).addTo(map);
 
     }
