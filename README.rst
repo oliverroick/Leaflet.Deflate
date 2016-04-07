@@ -16,7 +16,8 @@ Initialize along with the `minSize`. `minSize` defines the minimum width and hei
 
 .. code-block:: javascript
 
-    var map = L.map.deflate('map', {minSize: 20})
+    var map = L.map("map");
+    L.Deflate(map, {minSize: 20});
 
 All options and methods from Leaflet.Map are inherited.
 
