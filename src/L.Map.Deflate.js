@@ -1,6 +1,7 @@
 L.Deflate = function(map, options){
     var removedPaths = [];
     var minSize = options.minSize || 10;
+    var layer = options.layerGroup || map;
 
     function isCollapsed(path, zoom) {
         var bounds = path.getBounds();
@@ -34,30 +35,35 @@ L.Deflate = function(map, options){
         return zoomThreshold;
     }
 
-    map.on('layeradd', function(event) {
+    layer.on('layeradd', function(event) {
         var feature = event.layer;
         if (!feature._layers && feature.getBounds && !feature.zoomThreshold && !feature.marker) {
             var zoomThreshold = getZoomThreshold(feature);
             var marker = L.marker(feature.getBounds().getCenter());
 
+            if (feature._popupHandlersAdded) {
+                marker.bindPopup(feature._popup._content)
+            }
+
             feature.zoomThreshold = zoomThreshold;
             feature.marker = marker;
 
             if (map.getZoom() <= zoomThreshold) {
-                map.removeLayer(feature);
-                map.addLayer(feature.marker);
+                layer.removeLayer(feature);
+                layer.addLayer(feature.marker);
                 removedPaths.push(feature);
             }
         }
     });
 
     map.on('zoomend', function () {
+        if (layer !== map) { map.removeLayer(layer); }
         var removedTemp = [];
 
-        map.eachLayer(function (feature) {
+        layer.eachLayer(function (feature) {
             if (map.getZoom() <= feature.zoomThreshold) {
-                map.removeLayer(feature);
-                map.addLayer(feature.marker);
+                layer.removeLayer(feature);
+                layer.addLayer(feature.marker);
                 removedTemp.push(feature);
             }
         });
@@ -65,14 +71,14 @@ L.Deflate = function(map, options){
         for (var i = 0; i < removedPaths.length; i++) {
             var feature = removedPaths[i];
             if (map.getZoom() > feature.zoomThreshold) {
-                map.removeLayer(feature.marker);
-                map.addLayer(feature);
+                layer.removeLayer(feature.marker);
+                layer.addLayer(feature);
                 removedPaths.splice(i, 1);
                 i = i - 1;
             }
         }
 
+        if (layer !== map) { map.addLayer(layer); }
         removedPaths = removedPaths.concat(removedTemp);
     });
-
 }
