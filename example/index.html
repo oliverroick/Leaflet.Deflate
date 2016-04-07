@@ -20,13 +20,133 @@
     <script>
 
     window.onload = function () {
-        var map = L.map("map").setView([51.505, -0.09], 13);
+        var map = L.map("map").setView([51.505, -0.09], 7);
 
         L.Deflate(map, {minsize: 20});
 
         L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
+
+        var json = {
+          "type": "FeatureCollection",
+          "features": [
+            {
+              "type": "Feature",
+              "properties": {
+                "id": 1
+              },
+              "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      -0.273284912109375,
+                      51.60437164681676
+                    ],
+                    [
+                      -0.30212402343749994,
+                      51.572802100290254
+                    ],
+                    [
+                      -0.276031494140625,
+                      51.57194856482396
+                    ],
+                    [
+                      -0.267791748046875,
+                      51.587309751245456
+                    ],
+                    [
+                      -0.273284912109375,
+                      51.60437164681676
+                    ]
+                  ]
+                ]
+              }
+            },
+            {
+              "type": "Feature",
+              "properties": {
+                "id": 4
+              },
+              "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      -0.25543212890625,
+                      51.600959780448626
+                    ],
+                    [
+                      -0.2581787109375,
+                      51.57621608189101
+                    ],
+                    [
+                      -0.22247314453125,
+                      51.6001067737997
+                    ],
+                    [
+                      -0.24032592773437497,
+                      51.613752957501
+                    ],
+                    [
+                      -0.25543212890625,
+                      51.600959780448626
+                    ]
+                  ]
+                ]
+              }
+            },
+            {
+              "type": "Feature",
+              "properties": {
+                "id": 2
+              },
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  0.031585693359375,
+                  51.4428807236673
+                ]
+              }
+            },
+            {
+              "type": "Feature",
+              "properties": {
+                "id": 3
+              },
+              "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      0.06866455078125,
+                      51.59584150020809
+                    ],
+                    [
+                      0.06866455078125,
+                      51.61034179610212
+                    ],
+                    [
+                      0.10162353515625,
+                      51.61034179610212
+                    ],
+                    [
+                      0.10162353515625,
+                      51.59584150020809
+                    ],
+                    [
+                      0.06866455078125,
+                      51.59584150020809
+                    ]
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+
+        L.geoJson(json).addTo(map);
 
         var polygon = L.polygon([
             [51.509, -0.08],
@@ -46,7 +166,6 @@
         ], {color: 'red'}).addTo(map);
 
         var marker = L.marker([51.5, -0.09]).addTo(map);
-
     }
     </script>
 

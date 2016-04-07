@@ -36,7 +36,7 @@ L.Deflate = function(map, options){
 
     map.on('layeradd', function(event) {
         var feature = event.layer;
-        if (feature.getBounds && !feature.zoomThreshold && !feature.marker) {
+        if (!feature._layers && feature.getBounds && !feature.zoomThreshold && !feature.marker) {
             var zoomThreshold = getZoomThreshold(feature);
             var marker = L.marker(feature.getBounds().getCenter());
 
@@ -46,6 +46,7 @@ L.Deflate = function(map, options){
             if (map.getZoom() <= zoomThreshold) {
                 map.removeLayer(feature);
                 map.addLayer(feature.marker);
+                removedPaths.push(feature);
             }
         }
     });
