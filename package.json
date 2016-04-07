@@ -12,7 +12,9 @@
   "dependencies": {},
   "devDependencies": {
     "gulp": "^3.8.11",
-    "gulp-mocha-phantomjs": "^0.6.1",
+    "gulp-mocha-phantomjs": "0.8.1",
+    "mocha-phantomjs": "^3.6.0",
+    "phantomjs": "1.9.7-15",
     "gulp-uglify": "^1.2.0",
     "mocha": "^2.2.4",
     "should": "^6.0.0"
