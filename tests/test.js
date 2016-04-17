@@ -1,7 +1,7 @@
 var map = L.map("map").setView([51.505, -0.09], 13);
-L.Deflate(map, {minSize: 20})
+L.Deflate({minSize: 20}).addTo(map);
 
-describe('Leaflet.Conflate', function() {
+describe('Leaflet.Deflate', function() {
     afterEach(function () {
         map.setZoom(13, {animate: false});
         map.eachLayer(function (layer) {

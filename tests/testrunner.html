@@ -14,15 +14,15 @@
         <div id="map"></div>
         <script src="../node_modules/should/should.js"></script>
         <script src="../node_modules/mocha/mocha.js"></script>
-        <script>mocha.setup('bdd')</script>
+        <script>
+            if (window.initMochaPhantomJS) {
+                window.initMochaPhantomJS();    
+            }
+            mocha.setup('bdd')
+        </script>
         <script src="test.js"></script>
         <script>
-            window.initMochaPhantomJS()
-            if (window.mochaPhantomJS) {
-                mochaPhantomJS.run();
-            } else {
-                mocha.run();
-            }
+            mocha.run();
         </script>
     </body>
 </html>

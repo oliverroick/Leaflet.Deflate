@@ -1,7 +1,7 @@
-L.Deflate = function(map, options){
+L.Deflate = function(options) {
     var removedPaths = [];
     var minSize = options.minSize || 10;
-    var layer = options.layerGroup || map;
+    var layer, map;
 
     function isCollapsed(path, zoom) {
         var bounds = path.getBounds();
@@ -35,7 +35,7 @@ L.Deflate = function(map, options){
         return zoomThreshold;
     }
 
-    layer.on('layeradd', function(event) {
+    function layeradd(event) {
         var feature = event.layer;
         if (!feature._layers && feature.getBounds && !feature.zoomThreshold && !feature.marker) {
             var zoomThreshold = getZoomThreshold(feature);
@@ -54,9 +54,9 @@ L.Deflate = function(map, options){
                 removedPaths.push(feature);
             }
         }
-    });
+    }
 
-    map.on('zoomend', function () {
+    function zoomend() {
         if (layer !== map) { map.removeLayer(layer); }
         var removedTemp = [];
 
@@ -80,5 +80,15 @@ L.Deflate = function(map, options){
 
         if (layer !== map) { map.addLayer(layer); }
         removedPaths = removedPaths.concat(removedTemp);
-    });
+    }
+
+    function addTo(addToMap) {
+        layer = options.layerGroup || addToMap;
+        map = addToMap;
+
+        layer.on('layeradd', layeradd);
+        map.on('zoomend', zoomend);
+    }
+
+    return { addTo: addTo }
 }
