@@ -3,7 +3,7 @@ var uglify = require('gulp-uglify');
 var mochaPhantomJS = require('gulp-mocha-phantomjs');
 
 gulp.task('dist', function() {
-  gulp.src('src/L.Map.Deflate.js')
+  gulp.src('src/L.Deflate.js')
     .pipe(uglify())
     .pipe(gulp.dest('dist'))
 });
