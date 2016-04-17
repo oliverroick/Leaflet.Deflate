@@ -83,7 +83,7 @@ L.Deflate = function(options) {
     }
 
     function addTo(addToMap) {
-        layer = options.layerGroup || addToMap;
+        layer = options.featureGroup || addToMap;
         map = addToMap;
 
         layer.on('layeradd', layeradd);

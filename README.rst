@@ -12,14 +12,37 @@ Extends `Leaflet.Map <http://leafletjs.com/reference.html#map-class>`_ to automa
 Usage
 =====
 
-Initialize along with the `minSize`. `minSize` defines the minimum width and height in pixels for a Path to be displayed in its actual shape.
+Initialize with the `minSize` option and add to map. `minSize` defines the minimum width and height in pixels for a Path to be displayed in its actual shape. It defaults to `20`.
 
 .. code-block:: javascript
 
     var map = L.map("map");
-    L.Deflate(map, {minSize: 20});
+    L.Deflate({minSize: 10}).addTo(map);
 
-All options and methods from Leaflet.Map are inherited.
+FeatureGroup
+------------
+
+You can apply deflating to one `FeatureGroup`—only features inside that feature group will be affected by `Leaflet.Deflate`. 
+
+.. code-block:: javascript
+
+    var map = L.map("map");
+
+    var featureGroup = L.featureGroup().addTo(map)
+    L.Deflate({minSize: 10, featureGroup: featureGroup}).addTo(map);
+
+    // The polygon will be deflated
+    var polygon = L.polygon([
+        [51.509, -0.08],
+        [51.503, -0.06],
+        [51.51, -0.047]
+    ]);
+    featureGroup.addLayer(polygon);
+
+    // The circle will NOT be deflated
+    var circle = L.circle([51.508, -0.11], 500).addTo(map);
+
+
 
 Developing
 ==========
