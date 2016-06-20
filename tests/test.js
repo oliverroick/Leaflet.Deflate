@@ -249,4 +249,22 @@ describe('Leaflet.Deflate', function() {
             count.should.equal(3);
         }); 
     });
+
+    describe('Events', function () {
+        it('passes event listeners to marker', function () {
+            L.Deflate({minSize: 20}).addTo(map);
+            var callback = function() {}
+            
+            polygon = L.polygon([
+                [51.509, -0.08],
+                [51.503, -0.06],
+                [51.51, -0.047]
+            ]);
+            polygon.on('click', callback);
+            polygon.addTo(map);
+
+            polygon.marker._leaflet_events.should.have.property('click');
+            polygon.marker._leaflet_events['click'][0].action.should.equal(callback);
+        });
+    });
 });
