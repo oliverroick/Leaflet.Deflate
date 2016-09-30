@@ -11,5 +11,9 @@ gulp.task('dist', function() {
 gulp.task('test', function () {
     return gulp
     .src('tests/testrunner.html')
-    .pipe(mochaPhantomJS());
+    .pipe(mochaPhantomJS({
+        phantomjs: {
+            'ssl-protocol': 'tlsv1'
+        }
+    }));
 });

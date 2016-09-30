@@ -45,14 +45,12 @@ L.Deflate = function(options) {
                 marker.bindPopup(feature._popup._content)
             }
 
-            var events = feature._leaflet_events;
+            var events = feature._events;
             for (var event in events) {
                 if (events.hasOwnProperty(event)) {
-                    if (event.indexOf('idx') === -1) {
-                        var listeners = events[event];
-                        for (var i = 0, len = listeners.length; i < len; i++) {
-                            marker.on(event, listeners[i].action) 
-                        }
+                    var listeners = events[event];
+                    for (var i = 0, len = listeners.length; i < len; i++) {
+                        marker.on(event, listeners[i].fn) 
                     }
                 }
             }
