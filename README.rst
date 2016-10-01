@@ -55,13 +55,12 @@ Cluster Markers
 
 With a little help from `Leaflet.Markercluster <https://github.com/Leaflet/Leaflet.markercluster>`_ and  `Leaflet.Markercluster.LayerSupport <https://github.com/ghybs/Leaflet.MarkerCluster.LayerSupport>`_ you can cluster markers on your map.
 
-**Note:** You first have to check in your FeatureGroup with the MarkerClusterGroup and then add it to the map. 
-
 .. code-block:: javascript
 
     var map = L.map("map");
 
     var featureGroup = L.featureGroup();
+    featureGroup.addTo(map);
     L.Deflate({minSize: 10, featureGroup: featureGroup}).addTo(map);
 
     var polygon = L.polygon([
@@ -77,7 +76,10 @@ With a little help from `Leaflet.Markercluster <https://github.com/Leaflet/Leafl
     var markerGroup = L.markerClusterGroup.layerSupport()
     markerGroup.addTo(map);
     markerGroup.checkIn(featureGroup);
-    featureGroup.addTo(map);
+
+    // Dirty hack; otherwise the cluster won't appear on the map.
+    map.zoomIn(0);
+    map.zoomOut(0);
 
 Developing
 ==========
