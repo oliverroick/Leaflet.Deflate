@@ -12,6 +12,12 @@ Substitutes polygons and lines with markers when their screen size falls below a
 Usage
 =====
 
+Include `L.Deflate.js` from UNPKG:
+
+.. code-block:: html
+
+    <script src="https://unpkg.com/Leaflet.Deflate@0.3.0/dist/L.Deflate.js"></script>
+
 Initialize with the `minSize` option and add to map. `minSize` defines the minimum width and height in pixels for a path to be displayed in its actual shape. It defaults to `20`.
 
 .. code-block:: javascript
