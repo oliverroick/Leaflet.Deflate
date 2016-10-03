@@ -263,8 +263,8 @@ describe('Leaflet.Deflate', function() {
             polygon.on('click', callback);
             polygon.addTo(map);
 
-            polygon.marker._leaflet_events.should.have.property('click');
-            polygon.marker._leaflet_events['click'][0].action.should.equal(callback);
+            polygon.marker._events.should.have.property('click');
+            polygon.marker._events['click'][0].fn.should.equal(callback);
         });
     });
 });
