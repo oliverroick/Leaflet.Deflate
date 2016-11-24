@@ -2,7 +2,7 @@
 Leaflet.Deflate
 ===============
 
-.. image:: https://travis-ci.org/oliverroick/Leaflet.Deflate.svg
+.. image:: https://api.travis-ci.org/oliverroick/Leaflet.Deflate.svg?branch=master
     :target: https://travis-ci.org/oliverroick/Leaflet.Deflate
 
 Substitutes polygons and lines with markers when their screen size falls below a defined threshold.
