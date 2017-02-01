@@ -1,34 +1,28 @@
 describe('Leaflet.Deflate', function() {
-    var map;
+    var map, l;
 
     beforeEach(function() {
-        map = L.map("map").setView([51.505, -0.09], 13);
+        map = L.map("map").setView([51.505, -0.09], 10);
     });
 
     afterEach(function () {
         map.remove();
     });
 
-    describe('Applied to map', function () {
+    describe('Polygon', function () {
         var polygon, circle;
         beforeEach(function() {
-            L.Deflate({minSize: 20}).addTo(map);
+            l = L.deflate({minSize: 20}).addTo(map);
 
             polygon = L.polygon([
                 [51.509, -0.08],
                 [51.503, -0.06],
                 [51.51, -0.047]
-            ]).addTo(map);
-
-            circle = L.circle([51.508, -0.11], 500, {
-                color: 'red',
-                fillColor: '#f03',
-                fillOpacity: 0.5
-            }).addTo(map);
+            ]).addTo(l);
         });
 
-        it('polygon should not be on map', function () {
-            map.setZoom(11, {animate: false});
+        it('should be on map', function () {
+            map.setZoom(13, {animate: false});
 
             var onMap = false;
 
@@ -37,45 +31,10 @@ describe('Leaflet.Deflate', function() {
                         onMap = true;
                 }
             });
-            onMap.should.equal(false);
+            onMap.should.equal(true);
         });
 
-        it('polygon and circle should not be on map', function () {
-            map.setZoom(10, {animate: false});
-
-            var onMap = false;
-
-            map.eachLayer(function (layer) {
-                if (polygon === layer || circle === layer) {
-                        onMap = true;
-                }
-            });
-            onMap.should.equal(false);
-        });
-    });
-
-    describe('Applied to layergroup', function () {
-        var polygon, circle;
-
-        beforeEach(function() {
-            var featureGroup = L.featureGroup().addTo(map);
-            L.Deflate({minSize: 20, featureGroup: featureGroup}).addTo(map);
-
-            polygon = L.polygon([
-                [51.509, -0.08],
-                [51.503, -0.06],
-                [51.51, -0.047]
-            ]);
-            featureGroup.addLayer(polygon);
-
-            circle = L.circle([51.508, -0.11], 500, {
-                color: 'red',
-                fillColor: '#f03',
-                fillOpacity: 0.5
-            }).addTo(map);
-        });
-
-        it('polygon should not be on map', function () {
+        it('should not be on map', function () {
             map.setZoom(10, {animate: false});
 
             var onMap = false;
@@ -88,23 +47,67 @@ describe('Leaflet.Deflate', function() {
             onMap.should.equal(false);
         });
 
-        it('circle should be on map', function () {
-            map.setZoom(10, {animate: false});
+        it('should not be on map when outside bbox', function () {
+            map.panTo([0, 0])
+            map.setZoom(13, {animate: false});
 
             var onMap = false;
 
             map.eachLayer(function (layer) {
-                if (circle === layer) {
+                if (polygon === layer) {
+                        onMap = true;
+                }
+            });
+            onMap.should.equal(false);
+        });
+
+        it('should on map when dragged inside bbox', function () {
+            map.panTo([0, 0], {animate: false});
+            map.setZoom(13, {animate: false});
+            map.panTo([51.505, -0.09], {animate: false});
+
+            var onMap = false;
+
+            map.eachLayer(function (layer) {
+                if (polygon === layer) {
                     onMap = true;
                 }
             });
             onMap.should.equal(true);
-        }); 
+        });
+
+        it('should remove marker', function () {
+            map.setZoom(10, {animate: false});
+            l.removeLayer(polygon)
+
+            var onMap = false;
+
+            map.eachLayer(function (layer) {
+                if (polygon.marker === layer || polygon.marker === layer ) {
+                    onMap = true;
+                }
+            });
+            onMap.should.equal(false);
+        });
+
+        it('should remove polygon', function () {
+            map.setZoom(13, {animate: false});
+            l.removeLayer(polygon)
+
+            var onMap = false;
+
+            map.eachLayer(function (layer) {
+                if (polygon.marker === layer || polygon.marker === layer ) {
+                    onMap = true;
+                }
+            });
+            onMap.should.equal(false);
+        });
     });
 
     describe('GeoJSON', function () {
         beforeEach(function() {
-            L.Deflate({minSize: 20}).addTo(map);
+            l = L.deflate({minSize: 20}).addTo(map);
 
             var json = {
               "type": "FeatureCollection",
@@ -224,10 +227,10 @@ describe('Leaflet.Deflate', function() {
               ]
             }
 
-            L.geoJson(json).addTo(map);
+            L.geoJson(json).addTo(l);
         });
 
-        it('zoom == 9: 2 polygons should be on the map', function () {
+        it('zoom == 10: 2 polygons should be on the map', function () {
             map.setZoom(10, {animate: false});
 
             var count = 0;
@@ -238,7 +241,7 @@ describe('Leaflet.Deflate', function() {
             count.should.equal(2);
         });
 
-        it('zoom == 10: 3 polygons should be on the map', function () {
+        it('zoom == 11: 3 polygons should be on the map', function () {
             map.setZoom(11, {animate: false});
 
             var count = 0;
@@ -252,7 +255,7 @@ describe('Leaflet.Deflate', function() {
 
     describe('Events', function () {
         it('passes event listeners to marker', function () {
-            L.Deflate({minSize: 20}).addTo(map);
+            l = L.deflate({minSize: 20}).addTo(map);
             var callback = function() {}
             
             polygon = L.polygon([
@@ -261,7 +264,7 @@ describe('Leaflet.Deflate', function() {
                 [51.51, -0.047]
             ]);
             polygon.on('click', callback);
-            polygon.addTo(map);
+            polygon.addTo(l);
 
             polygon.marker._events.should.have.property('click');
             polygon.marker._events['click'][0].fn.should.equal(callback);
