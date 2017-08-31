@@ -12,12 +12,12 @@
   "dependencies": {},
   "devDependencies": {
     "gulp": "3.9.1",
-    "gulp-mocha-phantomjs": "0.12.0",
+    "gulp-mocha-phantomjs": "0.12.1",
     "mocha-phantomjs": "4.1.0",
     "phantomjs": "2.1.7",
-    "gulp-uglify": "2.0.0",
-    "mocha": "3.1.0",
-    "should": "11.1.0"
+    "gulp-uglify": "3.0.0",
+    "mocha": "3.5.0",
+    "should": "12.0.0"
   },
   "scripts": {
     "test": "gulp test"
