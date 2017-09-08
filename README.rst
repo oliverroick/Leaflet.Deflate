@@ -118,3 +118,8 @@ License
 =======
 
 Apache 2.0
+
+
+.. image:: https://badges.greenkeeper.io/oliverroick/Leaflet.Deflate.svg
+   :alt: Greenkeeper badge
+   :target: https://greenkeeper.io/
