@@ -270,4 +270,46 @@ describe('Leaflet.Deflate', function() {
             polygon.marker._events['click'][0].fn.should.equal(callback);
         });
     });
+
+    describe('Marker', function () {
+        var iconPath = '../example/img/marker.png'
+        it('should use icon', function () {
+            var myIcon = L.icon({
+                iconUrl: iconPath,
+                iconSize: [24, 24]
+            });
+            l = L.deflate({minSize: 20, markerOptions: {icon: myIcon}}).addTo(map);
+
+            polygon = L.polygon([
+                [51.509, -0.08],
+                [51.503, -0.06],
+                [51.51, -0.047]
+            ]);
+            polygon.addTo(l);
+
+            polygon.marker.options.icon.options.iconUrl.should.equal(iconPath);
+        });
+
+        it('should use marker function', function () {
+            function options(f) {
+                return {
+                    icon: L.icon({
+                        iconUrl: iconPath,
+                        iconSize: [24, 24]
+                    })
+                }
+            }
+
+            l = L.deflate({minSize: 20, markerOptions: options}).addTo(map);
+
+            polygon = L.polygon([
+                [51.509, -0.08],
+                [51.503, -0.06],
+                [51.51, -0.047]
+            ]);
+            polygon.addTo(l);
+
+            polygon.marker.options.icon.options.iconUrl.should.equal(iconPath);
+        });
+    });
 });

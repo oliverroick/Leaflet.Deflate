@@ -1,7 +1,8 @@
 L.Deflate = L.LayerGroup.extend({
     options: {
         minSize: 10,
-        markerCluster: false
+        markerCluster: false,
+        markerOptions: {}
     },
 
     initialize: function (options) {
@@ -42,6 +43,34 @@ L.Deflate = L.LayerGroup.extend({
         return zoomThreshold;
     },
 
+    _makeMarker: function(layer) {
+        var markerOptions;
+
+        if (typeof this.options.markerOptions === 'function') {
+            markerOptions = this.options.markerOptions(layer);
+        } else {
+            markerOptions = this.options.markerOptions;
+        }
+
+        var marker = L.marker(layer.getBounds().getCenter(), markerOptions);
+
+        if (layer._popupHandlersAdded) {
+            marker.bindPopup(layer._popup._content);
+        }
+
+        var events = layer._events;
+        for (var event in events) {
+            if (events.hasOwnProperty(event)) {
+                var listeners = events[event];
+                for (var i = 0, len = listeners.length; i < len; i++) {
+                    marker.on(event, listeners[i].fn);
+                }
+            }
+        }
+
+        return marker
+    },
+
     addLayer: function (layer) {
         if (layer instanceof L.FeatureGroup) {
             for (var i in layer._layers) {
@@ -51,24 +80,9 @@ L.Deflate = L.LayerGroup.extend({
             var layerToAdd = layer;
             if (layer.getBounds && !layer.zoomThreshold && !layer.marker) {
                 var zoomThreshold = this._getZoomThreshold(layer);
-                var marker = L.marker(layer.getBounds().getCenter());
-
-                if (layer._popupHandlersAdded) {
-                    marker.bindPopup(layer._popup._content);
-                }
-
-                var events = layer._events;
-                for (var event in events) {
-                    if (events.hasOwnProperty(event)) {
-                        var listeners = events[event];
-                        for (var i = 0, len = listeners.length; i < len; i++) {
-                            marker.on(event, listeners[i].fn);
-                        }
-                    }
-                }
 
                 layer.zoomThreshold = zoomThreshold;
-                layer.marker = marker;
+                layer.marker = this._makeMarker(layer);
                 layer.zoomState = this._map.getZoom();
 
                 if (this._map.getZoom() <= zoomThreshold) {
