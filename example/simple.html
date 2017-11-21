@@ -1,7 +1,7 @@
 <html>
     <head>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
-        <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+        <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet-src.js"></script>
         <script src="../src/L.Deflate.js"></script>
         <style>
             #map {
@@ -41,17 +41,15 @@
         .bindPopup('UPS')
         .addTo(features);
 
-        var stn = L.polygon([
+        L.polygon([
             [51.550509, -0.140574],
             [51.550221, -0.140622],
             [51.550208, -0.140456],
             [51.550154, -0.140156],
             [51.550316, -0.140113],
-        ]);
-        stn.on('click', function() {
-          alert('Yes, you clicked the station.')
-        });
-        stn.addTo(features);
+        ])
+        .bindPopup('Kentish Town Station')
+        .addTo(features);
 
         L.polygon([
             [51.550216, -0.140620],
