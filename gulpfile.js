@@ -13,7 +13,11 @@ gulp.task('test', function () {
     .src('tests/testrunner.html')
     .pipe(mochaPhantomJS({
         phantomjs: {
-            'ssl-protocol': 'tlsv1'
+            'ssl-protocol': 'tlsv1',
+            'viewportSize': {
+                width: 1024,
+                height: 768
+            }
         }
     }));
 });
