@@ -1,4 +1,4 @@
-L.Deflate = L.LayerGroup.extend({
+L.Deflate = L.FeatureGroup.extend({
     options: {
         minSize: 10,
         markerCluster: false,
