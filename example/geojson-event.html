@@ -1,0 +1,118 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+        <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet-src.js"></script>
+        <script src="../src/L.Deflate.js"></script>
+        <style>
+            #map {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+            }
+        </style>
+    </head>
+
+    <div id="map"></div>
+
+    <script>
+
+    window.onload = function () {
+        var map = L.map("map").setView([51.550406, -0.140765], 16);
+
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var features = L.deflate({minSize: 20});
+        features.addTo(map);
+
+        var json = {
+            "type": "FeatureCollection",
+            "features": [{
+                "type": "Feature",
+                "properties": {
+                    "id": 1
+                },
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [
+                        [
+                            [-0.144624, 51.551088],
+                            [-0.143648, 51.550818],
+                            [-0.143718, 51.550701],
+                            [-0.142398, 51.550351],
+                            [-0.142060, 51.550861],
+                            [-0.143160, 51.551155],
+                            [-0.143213, 51.551091],
+                            [-0.144410, 51.551408]
+                        ]
+                    ]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "id": 4
+                },
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [
+                        [
+                            [-0.140574, 51.550509],
+                            [-0.140622, 51.550221],
+                            [-0.140456, 51.550208],
+                            [-0.140156, 51.550154],
+                            [-0.140113, 51.550316]
+                        ]
+                    ]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "id": 2
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [
+                        -0.140765, 51.550406
+                    ]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "id": 3
+                },
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [
+                        [
+                            [-0.140620, 51.550216],
+                            [-0.140695, 51.549754],
+                            [-0.140290, 51.549702],
+                            [-0.140282, 51.549781],
+                            [-0.140475, 51.549807],
+                            [-0.140478, 51.549849],
+                            [-0.140255, 51.549824],
+                            [-0.140196, 51.550117],
+                            [-0.140290, 51.550127],
+                            [-0.140319, 51.550056],
+                            [-0.140488, 51.550084],
+                            [-0.140488, 51.550206],
+                            [-0.140620, 51.550216]
+                        ]
+                    ]
+                }
+            }]
+        };
+
+        var layer = L.geoJson(json, {style: {color: '#0000FF'}})
+        layer.on('click', function(e) {
+            console.log(e);
+            alert('Yes, you clicked.')
+        });
+        layer.addTo(features);
+    }
+    </script>
+
+</html>
