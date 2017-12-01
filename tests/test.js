@@ -254,6 +254,46 @@ describe('Leaflet.Deflate', function() {
     });
 
     describe('Events', function () {
+        var json = {
+            "type": "FeatureCollection",
+            "features": [{
+                "type": "Feature",
+                "properties": {
+                    "id": 1
+                },
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [
+                        [
+                            [-0.273284912109375, 51.60437164681676],
+                            [-0.30212402343749994, 51.572802100290254],
+                            [-0.276031494140625, 51.57194856482396],
+                            [-0.267791748046875, 51.587309751245456],
+                            [-0.273284912109375, 51.60437164681676]
+                        ]
+                    ]
+                }
+            },
+            {
+                "type": "Feature",
+                "properties": {
+                    "id": 4
+                },
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [
+                        [
+                            [-0.25543212890625, 51.600959780448626],
+                            [-0.2581787109375, 51.57621608189101],
+                            [-0.22247314453125, 51.6001067737997],
+                            [-0.24032592773437497, 51.613752957501],
+                            [-0.25543212890625, 51.600959780448626]
+                        ]
+                    ]
+                }
+            }]
+        };
+
         it('passes event listeners to marker', function () {
             l = L.deflate({minSize: 20}).addTo(map);
             var callback = function() {}
@@ -268,6 +308,82 @@ describe('Leaflet.Deflate', function() {
 
             polygon.marker._events.should.have.property('click');
             polygon.marker._events['click'][0].fn.should.equal(callback);
+        });
+
+        it('passes popup to marker', function () {
+            l = L.deflate({minSize: 20}).addTo(map);
+            var callback = function() {}
+            
+            polygon = L.polygon([
+                [51.509, -0.08],
+                [51.503, -0.06],
+                [51.51, -0.047]
+            ]);
+            polygon.bindPopup('Click');
+            polygon.addTo(l);
+
+            polygon.marker._popupHandlersAdded.should.equal(true);
+            polygon.marker._popup._content.should.equal('Click');
+        });
+
+        it('passes tooltip to marker', function () {
+            l = L.deflate({minSize: 20}).addTo(map);
+            var callback = function() {}
+            
+            polygon = L.polygon([
+                [51.509, -0.08],
+                [51.503, -0.06],
+                [51.51, -0.047]
+            ]);
+            polygon.bindTooltip('Click');
+            polygon.addTo(l);
+
+            polygon.marker._tooltipHandlersAdded.should.equal(true);
+            polygon.marker._tooltip._content.should.equal('Click');
+        });
+
+        it('passes events from GeoJSON to marker', function () {
+            l = L.deflate({minSize: 20}).addTo(map);
+            var callback = function() {}
+
+            L.geoJson(json).on('click', callback).addTo(l);
+
+            map.eachLayer(function (layer) {
+                if (layer.marker) {
+                    layer.marker._events.should.have.property('click');
+                    layer.marker._events['click'][0].fn.should.equal(callback);
+                }
+            });
+        });
+
+        it('passes popup from GeoJSON to marker', function () {
+            l = L.deflate({minSize: 20}).addTo(map);
+
+            L.geoJson(json).bindPopup('Click').addTo(l);
+
+            map.eachLayer(function (layer) {
+                if (layer.marker) {
+                    layer._popupHandlersAdded.should.equal(true);
+                    layer._popup._content.should.equal('Click');
+                    layer.marker._popupHandlersAdded.should.equal(true);
+                    layer.marker._popup._content.should.equal('Click');
+                }
+            });
+        });
+
+        it('passes tooltip from GeoJSON to marker', function () {
+            l = L.deflate({minSize: 20}).addTo(map);
+
+            L.geoJson(json).bindTooltip('Click').addTo(l);
+
+            map.eachLayer(function (layer) {
+                if (layer.marker) {
+                    layer._tooltipHandlersAdded.should.equal(true);
+                    layer._tooltip._content.should.equal('Click');
+                    layer.marker._tooltipHandlersAdded.should.equal(true);
+                    layer.marker._tooltip._content.should.equal('Click');
+                }
+            });
         });
     });
 

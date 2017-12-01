@@ -43,6 +43,45 @@ L.Deflate = L.LayerGroup.extend({
         return zoomThreshold;
     },
 
+    _bindInfoTools: function(marker, parentLayer) {
+        if (parentLayer._popupHandlersAdded) {
+            marker.bindPopup(parentLayer._popup._content);
+        }
+
+        if (parentLayer._tooltipHandlersAdded) {
+            marker.bindTooltip(parentLayer._tooltip._content);
+        }
+    },
+
+    _bindEvents: function(marker, parentLayer) {
+        this._bindInfoTools(marker, parentLayer);
+
+        var events = parentLayer._events;
+        for (var event in events) {
+            if (events.hasOwnProperty(event)) {
+                var listeners = events[event];
+                for (var i = 0, len = listeners.length; i < len; i++) {
+                    marker.on(event, listeners[i].fn);
+                }
+            }
+        }
+
+        // For FeatureGroups we need to bind all events, tooltips and popups
+        // from the FeatureGroup to each marker
+        if (!parentLayer._eventParents) { return; }
+
+        for (var key in parentLayer._eventParents) {
+            if (parentLayer._eventParents.hasOwnProperty(key)) {
+                if (parentLayer._eventParents[key]._map) { continue; }
+                this._bindEvents(marker, parentLayer._eventParents[key]);
+
+                // We're copying all layers of a FeatureGroup, so we need to bind
+                // all tooltips and popups to the original feature.
+                this._bindInfoTools(parentLayer, parentLayer._eventParents[key]);
+            }
+        }
+    },
+
     _makeMarker: function(layer) {
         var markerOptions;
 
@@ -53,20 +92,7 @@ L.Deflate = L.LayerGroup.extend({
         }
 
         var marker = L.marker(layer.getBounds().getCenter(), markerOptions);
-
-        if (layer._popupHandlersAdded) {
-            marker.bindPopup(layer._popup._content);
-        }
-
-        var events = layer._events;
-        for (var event in events) {
-            if (events.hasOwnProperty(event)) {
-                var listeners = events[event];
-                for (var i = 0, len = listeners.length; i < len; i++) {
-                    marker.on(event, listeners[i].fn);
-                }
-            }
-        }
+        this._bindEvents(marker, layer);
 
         return marker
     },
