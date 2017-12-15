@@ -1,4 +1,4 @@
-L.Deflate = L.LayerGroup.extend({
+L.Deflate = L.FeatureGroup.extend({
     options: {
         minSize: 10,
         markerCluster: false,
@@ -138,10 +138,10 @@ L.Deflate = L.LayerGroup.extend({
     _switchDisplay: function(layer, showMarker) {
         if (showMarker) {
             this._featureGroup.addLayer(layer.marker);
-            this._featureGroup.removeLayer(layer);    
+            this._featureGroup.removeLayer(layer);
         } else {
             this._featureGroup.addLayer(layer);
-            this._featureGroup.removeLayer(layer.marker);    
+            this._featureGroup.removeLayer(layer.marker);
         }
     },
 
