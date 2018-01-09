@@ -2,13 +2,14 @@ L.Deflate = L.FeatureGroup.extend({
     options: {
         minSize: 10,
         markerCluster: false,
-        markerOptions: {}
+        markerOptions: {},
+        markerClusterOptions: {}
     },
 
     initialize: function (options) {
         L.Util.setOptions(this, options);
         this._allLayers = [];
-        this._featureGroup = this.options.markerCluster ? L.markerClusterGroup() : L.featureGroup();
+        this._featureGroup = this.options.markerCluster ? L.markerClusterGroup(this.options.markerClusterOptions) : L.featureGroup();
     },
 
     _isCollapsed: function(path, zoom) {
