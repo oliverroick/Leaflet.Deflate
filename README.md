@@ -208,6 +208,7 @@ gulp dist
 ## Authors
 
 - [Lindsey Jacks](https://github.com/linzjax)
+- [Loic Lacroix](https://github.com/loclac)
 - [Oliver Roick](http://github.com/oliverroick)
 
 ## License
