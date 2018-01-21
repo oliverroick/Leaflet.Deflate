@@ -4,7 +4,7 @@ var mochaPhantomJS = require('gulp-mocha-phantomjs');
 
 gulp.task('dist', function() {
   gulp.src('src/L.Deflate.js')
-    .pipe(uglify())
+    .pipe(uglify().on('error', function(e){console.log(e);}))
     .pipe(gulp.dest('dist'))
 });
 

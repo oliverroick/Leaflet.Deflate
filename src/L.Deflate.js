@@ -130,7 +130,7 @@ L.Deflate = L.FeatureGroup.extend({
             this._featureGroup.removeLayer(layer.marker);
             this._featureGroup.removeLayer(layer);
 
-            const index = this._allLayers.indexOf(layer);
+            var index = this._allLayers.indexOf(layer);
             if (index !== -1) { this._allLayers.splice(index, 1); }
         }
     },
@@ -146,8 +146,8 @@ L.Deflate = L.FeatureGroup.extend({
     },
 
     _deflate: function() {
-        const bounds = this._map.getBounds();
-        const endZoom = this._map.getZoom();
+        var bounds = this._map.getBounds();
+        var endZoom = this._map.getZoom();
         var markersToAdd = [];
         var markersToRemove = [];
 
