@@ -16,7 +16,7 @@
     "mocha-phantomjs": "4.1.0",
     "phantomjs": "2.1.7",
     "gulp-uglify": "3.0.1",
-    "mocha": "5.1.1",
+    "mocha": "5.2.0",
     "should": "13.2.1"
   },
   "scripts": {
