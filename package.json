@@ -17,7 +17,7 @@
     "phantomjs": "2.1.7",
     "gulp-uglify": "3.0.1",
     "mocha": "5.2.0",
-    "should": "13.2.1"
+    "should": "13.2.3"
   },
   "scripts": {
     "test": "gulp test"
