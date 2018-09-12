@@ -326,6 +326,23 @@ describe('Leaflet.Deflate', function() {
             polygon.marker._popup._content.should.equal('Click');
         });
 
+        it('passes popup options to marker', function () {
+            l = L.deflate({minSize: 20}).addTo(map);
+            var callback = function() {}
+            
+            polygon = L.polygon([
+                [51.509, -0.08],
+                [51.503, -0.06],
+                [51.51, -0.047]
+            ]);
+            polygon.bindPopup('Click', {closeButton: false});
+            polygon.addTo(l);
+
+            polygon.marker._popupHandlersAdded.should.equal(true);
+            polygon.marker._popup._content.should.equal('Click');
+            polygon.marker._popup.options['closeButton'].should.equal(false);
+        });
+
         it('passes tooltip to marker', function () {
             l = L.deflate({minSize: 20}).addTo(map);
             var callback = function() {}

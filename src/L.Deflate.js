@@ -46,7 +46,7 @@ L.Deflate = L.FeatureGroup.extend({
 
     _bindInfoTools: function(marker, parentLayer) {
         if (parentLayer._popupHandlersAdded) {
-            marker.bindPopup(parentLayer._popup._content);
+            marker.bindPopup(parentLayer._popup._content, parentLayer._popup.options);
         }
 
         if (parentLayer._tooltipHandlersAdded) {
