@@ -50,7 +50,7 @@ L.Deflate = L.FeatureGroup.extend({
         }
 
         if (parentLayer._tooltipHandlersAdded) {
-            marker.bindTooltip(parentLayer._tooltip._content);
+            marker.bindTooltip(parentLayer._tooltip._content, parentLayer._tooltip.options);
         }
     },
 

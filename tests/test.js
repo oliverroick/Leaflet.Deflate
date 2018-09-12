@@ -342,6 +342,23 @@ describe('Leaflet.Deflate', function() {
             polygon.marker._tooltip._content.should.equal('Click');
         });
 
+        it('passes tooltip options to marker', function () {
+            l = L.deflate({minSize: 20}).addTo(map);
+            var callback = function() {}
+            
+            polygon = L.polygon([
+                [51.509, -0.08],
+                [51.503, -0.06],
+                [51.51, -0.047]
+            ]);
+            polygon.bindTooltip('Click', {direction: 'bottom'});
+            polygon.addTo(l);
+
+            polygon.marker._tooltipHandlersAdded.should.equal(true);
+            polygon.marker._tooltip._content.should.equal('Click');
+            polygon.marker._tooltip.options['direction'].should.equal('bottom');
+        });
+
         it('passes events from GeoJSON to marker', function () {
             l = L.deflate({minSize: 20}).addTo(map);
             var callback = function() {}
