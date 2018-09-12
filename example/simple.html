@@ -38,7 +38,9 @@
             [51.551091, -0.143213],
             [51.551408, -0.144410]
         ])
-        .bindPopup('UPS')
+        .bindPopup('UPS', {
+            closeButton: false
+        })
         .addTo(features);
 
         L.polygon([
