@@ -12,14 +12,12 @@
   "dependencies": {},
   "devDependencies": {
     "gulp": "3.9.1",
-    "gulp-mocha-phantomjs": "0.12.2",
-    "mocha-phantomjs": "4.1.0",
-    "phantomjs": "2.1.7",
     "gulp-uglify": "3.0.1",
     "mocha": "5.2.0",
+    "mocha-chrome": "^1.1.0",
     "should": "13.2.3"
   },
   "scripts": {
-    "test": "gulp test"
+    "test": "./node_modules/.bin/mocha-chrome tests/testrunner.html"
   }
 }
