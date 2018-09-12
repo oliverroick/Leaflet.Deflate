@@ -197,13 +197,13 @@ npm install
 To run tests:
 
 ```
-gulp test
+npm test
 ```
 
 To write a minified JS into dist:
 
 ```
-gulp dist
+npm run dist
 ```
 
 ## Authors
