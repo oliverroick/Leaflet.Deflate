@@ -11,13 +11,13 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "gulp": "3.9.1",
-    "gulp-uglify": "3.0.1",
     "mocha": "5.2.0",
     "mocha-chrome": "^1.1.0",
-    "should": "13.2.3"
+    "should": "13.2.3",
+    "uglify-js": "^3.4.9"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha-chrome tests/testrunner.html"
+    "test": "./node_modules/.bin/mocha-chrome tests/testrunner.html",
+    "dist": "./node_modules/.bin/uglifyjs --output dist/L.Deflate.js src/L.Deflate.js"
   }
 }
