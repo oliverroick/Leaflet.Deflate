@@ -9,7 +9,7 @@ L.Deflate = L.FeatureGroup.extend({
     initialize: function (options) {
         L.Util.setOptions(this, options);
         this._allLayers = [];
-        this._featureGroup = this.options.markerCluster ? L.markerClusterGroup(this.options.markerClusterOptions) : L.featureGroup();
+        L.FeatureGroup.prototype.initialize.call(this, [], options);
     },
 
     _isCollapsed: function(path, zoom) {
@@ -118,7 +118,7 @@ L.Deflate = L.FeatureGroup.extend({
                 this._allLayers.push(layer);
             }
 
-            this._featureGroup.addLayer(layerToAdd);    
+            L.FeatureGroup.prototype.addLayer.call(this, layerToAdd);
         }
     },
 
@@ -128,8 +128,8 @@ L.Deflate = L.FeatureGroup.extend({
                 this.removeLayer(layer._layers[i]);
             }
         } else {
-            this._featureGroup.removeLayer(layer.marker);
-            this._featureGroup.removeLayer(layer);
+            this._map.removeLayer(layer.marker);
+            this._map.removeLayer(layer);
 
             var index = this._allLayers.indexOf(layer);
             if (index !== -1) { this._allLayers.splice(index, 1); }
@@ -138,19 +138,17 @@ L.Deflate = L.FeatureGroup.extend({
 
     _switchDisplay: function(layer, showMarker) {
         if (showMarker) {
-            this._featureGroup.addLayer(layer.marker);
-            this._featureGroup.removeLayer(layer);
+            this._map.addLayer(layer.marker);
+            this._map.removeLayer(layer);
         } else {
-            this._featureGroup.addLayer(layer);
-            this._featureGroup.removeLayer(layer.marker);
+            this._map.addLayer(layer);
+            this._map.removeLayer(layer.marker);
         }
     },
 
     _deflate: function() {
         var bounds = this._map.getBounds();
         var endZoom = this._map.getZoom();
-        var markersToAdd = [];
-        var markersToRemove = [];
 
         for (var i = 0, len = this._allLayers.length; i < len; i++) {
             if (this._allLayers[i].zoomState !== endZoom && this._allLayers[i].getBounds().intersects(bounds)) {
@@ -160,18 +158,12 @@ L.Deflate = L.FeatureGroup.extend({
         }
     },
 
-    getBounds: function() {
-        return this._featureGroup.getBounds();
-    },
-
     onAdd: function(map) {
-        this._featureGroup.addTo(map);
         this._map.on("zoomend", this._deflate, this);
         this._map.on("moveend", this._deflate, this);
     },
 
     onRemove: function(map) {
-        map.removeLayer(this._featureGroup);
         this._map.off("zoomend", this._deflate, this);
         this._map.off("moveend", this._deflate, this);
     }
