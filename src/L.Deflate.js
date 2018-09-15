@@ -10,6 +10,10 @@ L.Deflate = L.FeatureGroup.extend({
         L.Util.setOptions(this, options);
         this._allLayers = [];
         L.FeatureGroup.prototype.initialize.call(this, [], options);
+
+        if (options.markerCluster) {
+            this.clusterLayer = L.markerClusterGroup(this.options.markerClusterOptions);
+        }
     },
 
     _isCollapsed: function(path, zoom) {
@@ -118,7 +122,11 @@ L.Deflate = L.FeatureGroup.extend({
                 this._allLayers.push(layer);
             }
 
-            L.FeatureGroup.prototype.addLayer.call(this, layerToAdd);
+            if (this.clusterLayer) {
+                this.clusterLayer.addLayer(layerToAdd);
+            } else {
+                L.FeatureGroup.prototype.addLayer.call(this, layerToAdd);
+            }
         }
     },
 
@@ -128,8 +136,9 @@ L.Deflate = L.FeatureGroup.extend({
                 this.removeLayer(layer._layers[i]);
             }
         } else {
-            this._map.removeLayer(layer.marker);
-            this._map.removeLayer(layer);
+            var markerLayer = this.clusterLayer ? this.clusterLayer : this._map;
+            markerLayer.removeLayer(layer.marker);
+            markerLayer.removeLayer(layer);
 
             var index = this._allLayers.indexOf(layer);
             if (index !== -1) { this._allLayers.splice(index, 1); }
@@ -137,12 +146,13 @@ L.Deflate = L.FeatureGroup.extend({
     },
 
     _switchDisplay: function(layer, showMarker) {
+        var markerLayer = this.clusterLayer ? this.clusterLayer : this._map;
         if (showMarker) {
-            this._map.addLayer(layer.marker);
-            this._map.removeLayer(layer);
+            markerLayer.addLayer(layer.marker);
+            markerLayer.removeLayer(layer);
         } else {
-            this._map.addLayer(layer);
-            this._map.removeLayer(layer.marker);
+            markerLayer.addLayer(layer);
+            markerLayer.removeLayer(layer.marker);
         }
     },
 
@@ -159,11 +169,13 @@ L.Deflate = L.FeatureGroup.extend({
     },
 
     onAdd: function(map) {
+        if (this.clusterLayer) {this.clusterLayer.addTo(map)};
         this._map.on("zoomend", this._deflate, this);
         this._map.on("moveend", this._deflate, this);
     },
 
     onRemove: function(map) {
+        if (this.clusterLayer) {map.removeLayer(this.cluster)};
         this._map.off("zoomend", this._deflate, this);
         this._map.off("moveend", this._deflate, this);
     }
