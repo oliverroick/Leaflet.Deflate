@@ -137,12 +137,22 @@ L.Deflate = L.FeatureGroup.extend({
             }
         } else {
             var markerLayer = this.clusterLayer ? this.clusterLayer : this._map;
-            markerLayer.removeLayer(layer.marker);
             markerLayer.removeLayer(layer);
+            if (layer.marker) { markerLayer.removeLayer(layer.marker); }
 
             var index = this._allLayers.indexOf(layer);
             if (index !== -1) { this._allLayers.splice(index, 1); }
         }
+    },
+
+    clearLayers: function() {
+        if (this.clusterLayer) {
+            this.clusterLayer.clearLayers();
+            this._allLayers = [];
+        } else {
+            L.FeatureGroup.prototype.clearLayers.call(this);
+        }
+
     },
 
     _switchDisplay: function(layer, showMarker) {
@@ -161,7 +171,7 @@ L.Deflate = L.FeatureGroup.extend({
         var endZoom = this._map.getZoom();
 
         for (var i = 0, len = this._allLayers.length; i < len; i++) {
-            if (this._allLayers[i].zoomState !== endZoom && this._allLayers[i].getBounds().intersects(bounds)) {
+            if (this._allLayers[i].marker && this._allLayers[i].zoomState !== endZoom && this._allLayers[i].getBounds().intersects(bounds)) {
                 this._switchDisplay(this._allLayers[i], endZoom <= this._allLayers[i].zoomThreshold);
                 this._allLayers[i].zoomState = endZoom;
             }

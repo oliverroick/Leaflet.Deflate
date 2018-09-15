@@ -10,7 +10,7 @@ describe('Leaflet.Deflate', function() {
     });
 
     describe('Polygon', function () {
-        var polygon, circle;
+        var polygon;
         beforeEach(function() {
             l = L.deflate({minSize: 20}).addTo(map);
 
@@ -98,6 +98,48 @@ describe('Leaflet.Deflate', function() {
 
             map.eachLayer(function (layer) {
                 if (polygon.marker === layer || polygon.marker === layer ) {
+                    onMap = true;
+                }
+            });
+            onMap.should.equal(false);
+        });
+    });
+
+    describe('clearLayers', function () {
+        beforeEach(function() {
+            l = L.deflate({minSize: 20}).addTo(map);
+        });
+
+        it('should remove polygon', function () {
+            var polygon = L.polygon([
+                [51.509, -0.08],
+                [51.503, -0.06],
+                [51.51, -0.047]
+            ]).addTo(l);
+
+            map.setZoom(13, {animate: false});
+            l.clearLayers();
+
+            var onMap = false;
+
+            map.eachLayer(function (layer) {
+                if (polygon.marker === layer || polygon.marker === layer ) {
+                    onMap = true;
+                }
+            });
+            onMap.should.equal(false);
+        });
+
+        it('should remove point', function () {
+            var marker = L.marker([51.509, -0.08]).addTo(l);
+
+            map.setZoom(13, {animate: false});
+            l.clearLayers();
+
+            var onMap = false;
+
+            map.eachLayer(function (layer) {
+                if (marker === layer) {
                     onMap = true;
                 }
             });
