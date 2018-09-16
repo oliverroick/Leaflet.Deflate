@@ -105,6 +105,98 @@ describe('Leaflet.Deflate', function() {
         });
     });
 
+    describe('Circle', function () {
+        var circle;
+        beforeEach(function() {
+            l = L.deflate({minSize: 20}).addTo(map);
+
+            circle = L.circle([51.505, -0.09], {radius: 100}).addTo(l);
+        });
+
+        it('should be on map', function () {
+            map.setZoom(14, {animate: false});
+
+            var onMap = false;
+
+            map.eachLayer(function (layer) {
+                if (circle === layer) {
+                        onMap = true;
+                }
+            });
+            onMap.should.equal(true);
+        });
+
+        it('should not be on map', function () {
+            map.setZoom(10, {animate: false});
+
+            var onMap = false;
+
+            map.eachLayer(function (layer) {
+                if (circle === layer) {
+                        onMap = true;
+                }
+            });
+            onMap.should.equal(false);
+        });
+
+        it('should not be on map when outside bbox', function () {
+            map.panTo([0, 0])
+            map.setZoom(13, {animate: false});
+
+            var onMap = false;
+
+            map.eachLayer(function (layer) {
+                if (circle === layer) {
+                        onMap = true;
+                }
+            });
+            onMap.should.equal(false);
+        });
+
+        it('should be on map when dragged inside bbox', function () {
+            map.panTo([0, 0], {animate: false});
+            map.setZoom(14, {animate: false});
+            map.panTo([51.505, -0.09], {animate: false});
+
+            var onMap = false;
+
+            map.eachLayer(function (layer) {
+                if (circle === layer) {
+                    onMap = true;
+                }
+            });
+            onMap.should.equal(true);
+        });
+
+        it('should remove marker', function () {
+            map.setZoom(10, {animate: false});
+            l.removeLayer(circle)
+
+            var onMap = false;
+
+            map.eachLayer(function (layer) {
+                if (circle.marker === layer || circle.marker === layer ) {
+                    onMap = true;
+                }
+            });
+            onMap.should.equal(false);
+        });
+
+        it('should remove polygon', function () {
+            map.setZoom(13, {animate: false});
+            l.removeLayer(circle)
+
+            var onMap = false;
+
+            map.eachLayer(function (layer) {
+                if (circle.marker === layer || circle.marker === layer ) {
+                    onMap = true;
+                }
+            });
+            onMap.should.equal(false);
+        });
+    });
+
     describe('clearLayers', function () {
         beforeEach(function() {
             l = L.deflate({minSize: 20}).addTo(map);

@@ -16,8 +16,25 @@ L.Deflate = L.FeatureGroup.extend({
         }
     },
 
+    _getBounds: function(path) {
+        // L.Circle defines the radius in metres. If you want to calculate
+        // the bounding box of a circle, it needs to be projected on the map.
+        // The only way to do that at present is to add it to the map. We're
+        // removing the circle after computing the bounds because we haven't
+        // figured out wether to display the circle or the deflated marker.
+        // It's a terribly ugly solution but ¯\_(ツ)_/¯
+
+        if (path instanceof L.Circle) {
+            path.addTo(this._map);
+            var bounds = path.getBounds();
+            this._map.removeLayer(path);
+            return bounds;
+        }
+        return path.getBounds();
+    },
+
     _isCollapsed: function(path, zoom) {
-        var bounds = path.getBounds();
+        var bounds = path.computedBounds;
 
         var ne_px = this._map.project(bounds.getNorthEast(), zoom);
         var sw_px = this._map.project(bounds.getSouthWest(), zoom);
@@ -96,7 +113,7 @@ L.Deflate = L.FeatureGroup.extend({
             markerOptions = this.options.markerOptions;
         }
 
-        var marker = L.marker(layer.getBounds().getCenter(), markerOptions);
+        var marker = L.marker(layer.computedBounds.getCenter(), markerOptions);
         this._bindEvents(marker, layer);
 
         if (layer.feature) {
@@ -116,6 +133,8 @@ L.Deflate = L.FeatureGroup.extend({
         } else {
             var layerToAdd = layer;
             if (layer.getBounds && !layer.zoomThreshold && !layer.marker) {
+                layer.computedBounds = this._getBounds(layer);
+
                 var zoomThreshold = this._getZoomThreshold(layer);
 
                 layer.zoomThreshold = zoomThreshold;
@@ -177,7 +196,7 @@ L.Deflate = L.FeatureGroup.extend({
         var endZoom = this._map.getZoom();
 
         for (var i = 0, len = this._allLayers.length; i < len; i++) {
-            if (this._allLayers[i].marker && this._allLayers[i].zoomState !== endZoom && this._allLayers[i].getBounds().intersects(bounds)) {
+            if (this._allLayers[i].marker && this._allLayers[i].zoomState !== endZoom && this._allLayers[i].computedBounds.intersects(bounds)) {
                 this._switchDisplay(this._allLayers[i], endZoom <= this._allLayers[i].zoomThreshold);
                 this._allLayers[i].zoomState = endZoom;
             }
