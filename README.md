@@ -8,7 +8,7 @@ Substitutes polygons and lines with markers when their screen size falls below a
 
 ![Example](https://cloud.githubusercontent.com/assets/159510/7164588/090c06fe-e399-11e4-956d-0283ef7e69cf.gif)
 
-(**NOTE:** The following refence reflects pre-release version 1.0-alpha.3. If you're looking to use the latest stable release, please refer to the [maintenance/0.3 branch](https://github.com/oliverroick/Leaflet.Deflate/tree/maintenance/0.3).)
+(**NOTE:** The following refence reflects pre-release version 1.0-alpha.4. If you're looking to use the latest stable release, please refer to the [maintenance/0.3 branch](https://github.com/oliverroick/Leaflet.Deflate/tree/maintenance/0.3).)
 
 ## Installation
 
@@ -17,7 +17,7 @@ Substitutes polygons and lines with markers when their screen size falls below a
 Include the source into the `head` section of your document.
 
 ```html
-<script src="https://unpkg.com/Leaflet.Deflate@1.0.0-alpha.3/dist/L.Deflate.js"></script>
+<script src="https://unpkg.com/Leaflet.Deflate@1.0.0-alpha.4/dist/L.Deflate.js"></script>
 ```
 
 ### Install via NPM
@@ -25,7 +25,7 @@ Include the source into the `head` section of your document.
 If you use the [npm package manager](https://www.npmjs.com/), you can fetch a local copy by running:
 
 ```bash
-npm install Leaflet.Deflate@1.0.0-alpha.3
+npm install Leaflet.Deflate@1.0.0-alpha.4
 ```
 
 You will find a copy of the release files in `node_modules/Leaflet.Deflate/dist`.
