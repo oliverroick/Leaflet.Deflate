@@ -292,7 +292,13 @@ describe('Leaflet.Deflate', function() {
                 if (layer.zoomThreshold && layer.getBounds) { count++; }
             });
             count.should.equal(3);
-        }); 
+        });
+
+        it('passed feature properties to marker', function() {
+            var layer = l.getLayers()[0];
+            layer.marker.feature.geometry.should.deepEqual(layer.marker.toGeoJSON().geometry);
+            layer.marker.feature.properties.should.deepEqual(layer.feature.properties);
+        });
     });
 
     describe('Events', function () {

@@ -99,6 +99,12 @@ L.Deflate = L.FeatureGroup.extend({
         var marker = L.marker(layer.getBounds().getCenter(), markerOptions);
         this._bindEvents(marker, layer);
 
+        if (layer.feature) {
+            var markerFeature = marker.toGeoJSON();
+            markerFeature.properties = layer.feature.properties;
+            marker.feature = markerFeature;
+        }
+
         return marker
     },
 
