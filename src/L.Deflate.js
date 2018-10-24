@@ -184,7 +184,6 @@ L.Deflate = L.FeatureGroup.extend({
             this.clusterLayer.clearLayers();
             
         } else {
-            // return this.eachLayer(this.removeLayer, this);
             for (i = 0, len = this._allLayers.length; i < len; i++) {
                 this._removeFromMap(this._allLayers[i]);
             }
