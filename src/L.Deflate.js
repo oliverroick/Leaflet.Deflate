@@ -125,7 +125,7 @@ L.Deflate = L.FeatureGroup.extend({
         return marker
     },
 
-    _addToMap(layer) {
+    _addToMap: function(layer) {
         var layerToAdd = layer;
 
         if (this._map.getZoom() <= layer.zoomThreshold) {
@@ -160,7 +160,7 @@ L.Deflate = L.FeatureGroup.extend({
         }
     },
 
-    _removeFromMap(layer) {
+    _removeFromMap: function(layer) {
         var markerLayer = this.clusterLayer ? this.clusterLayer : this._map;
         markerLayer.removeLayer(layer);
         if (layer.marker) { markerLayer.removeLayer(layer.marker); }
