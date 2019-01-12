@@ -9,6 +9,61 @@ describe('Leaflet.Deflate', function() {
         map.remove();
     });
 
+    describe('FeatureLayer', function () {
+        var polygon;
+        beforeEach(function() {
+            l = L.deflate({minSize: 20});
+
+            polygon = L.polygon([
+                [51.509, -0.08],
+                [51.503, -0.06],
+                [51.51, -0.047]
+            ]);
+        });
+
+        it('adds all features', function () {
+            l.addTo(map);
+            polygon.addTo(l);
+            map.setZoom(13, {animate: false});
+            map.hasLayer(polygon).should.equal(true);
+        });
+
+        it('adds all features when the layer is added', function () {
+            polygon.addTo(l);
+            l.addTo(map);
+            map.setZoom(13, {animate: false});
+            map.hasLayer(polygon).should.equal(true);
+        });
+
+        it('removes all features from the map', function () {
+            polygon.addTo(l);
+            l.addTo(map);
+            map.setZoom(13, {animate: false});
+            map.removeLayer(l);
+            map.hasLayer(polygon).should.equal(false);
+        });
+
+        it('adds additional features when the layer is re-added', function () {
+            l.addTo(map);
+            polygon.addTo(l);
+            map.setZoom(13, {animate: false});
+            map.hasLayer(polygon).should.equal(true);
+
+            map.removeLayer(l);
+            map.hasLayer(polygon).should.equal(false);
+
+            var otherPolygon = L.polygon([
+                [52.509, -1.08],
+                [52.503, -1.06],
+                [52.51, -1.047]
+            ]);
+            otherPolygon.addTo(l);
+            l.addTo(map);
+            map.hasLayer(polygon).should.equal(true);
+            map.hasLayer(otherPolygon).should.equal(true);
+        });
+    });
+
     describe('Polygon', function () {
         var polygon;
         beforeEach(function() {
