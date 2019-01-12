@@ -78,85 +78,39 @@ describe('Leaflet.Deflate', function() {
 
         it('should be on map', function () {
             map.setZoom(13, {animate: false});
-
-            var onMap = false;
-
-            map.eachLayer(function (layer) {
-                if (polygon === layer) {
-                        onMap = true;
-                }
-            });
-            onMap.should.equal(true);
+            map.hasLayer(polygon).should.equal(true);
         });
 
         it('should not be on map', function () {
             map.setZoom(10, {animate: false});
-
-            var onMap = false;
-
-            map.eachLayer(function (layer) {
-                if (polygon === layer) {
-                        onMap = true;
-                }
-            });
-            onMap.should.equal(false);
+            map.hasLayer(polygon).should.equal(false);
         });
 
         it('should not be on map when outside bbox', function () {
             map.panTo([0, 0])
             map.setZoom(13, {animate: false});
-
-            var onMap = false;
-
-            map.eachLayer(function (layer) {
-                if (polygon === layer) {
-                        onMap = true;
-                }
-            });
-            onMap.should.equal(false);
+            map.hasLayer(polygon).should.equal(false);
         });
 
         it('should on map when dragged inside bbox', function () {
             map.panTo([0, 0], {animate: false});
             map.setZoom(13, {animate: false});
             map.panTo([51.505, -0.09], {animate: false});
-
-            var onMap = false;
-
-            map.eachLayer(function (layer) {
-                if (polygon === layer) {
-                    onMap = true;
-                }
-            });
-            onMap.should.equal(true);
+            map.hasLayer(polygon).should.equal(true);
         });
 
         it('should remove marker', function () {
             map.setZoom(10, {animate: false});
             l.removeLayer(polygon)
-
-            var onMap = false;
-
-            map.eachLayer(function (layer) {
-                if (polygon.marker === layer || polygon.marker === layer ) {
-                    onMap = true;
-                }
-            });
-            onMap.should.equal(false);
+            map.hasLayer(polygon).should.equal(false);
+            map.hasLayer(polygon.marker).should.equal(false);
         });
 
         it('should remove polygon', function () {
             map.setZoom(13, {animate: false});
-            l.removeLayer(polygon)
-
-            var onMap = false;
-
-            map.eachLayer(function (layer) {
-                if (polygon.marker === layer || polygon.marker === layer ) {
-                    onMap = true;
-                }
-            });
-            onMap.should.equal(false);
+            l.removeLayer(polygon);
+            map.hasLayer(polygon).should.equal(false);
+            map.hasLayer(polygon.marker).should.equal(false);
         });
     });
 
@@ -170,85 +124,39 @@ describe('Leaflet.Deflate', function() {
 
         it('should be on map', function () {
             map.setZoom(14, {animate: false});
-
-            var onMap = false;
-
-            map.eachLayer(function (layer) {
-                if (circle === layer) {
-                        onMap = true;
-                }
-            });
-            onMap.should.equal(true);
+            map.hasLayer(circle).should.equal(true);
         });
 
         it('should not be on map', function () {
             map.setZoom(10, {animate: false});
-
-            var onMap = false;
-
-            map.eachLayer(function (layer) {
-                if (circle === layer) {
-                        onMap = true;
-                }
-            });
-            onMap.should.equal(false);
+            map.hasLayer(circle).should.equal(false);
         });
 
         it('should not be on map when outside bbox', function () {
             map.panTo([0, 0])
             map.setZoom(13, {animate: false});
-
-            var onMap = false;
-
-            map.eachLayer(function (layer) {
-                if (circle === layer) {
-                        onMap = true;
-                }
-            });
-            onMap.should.equal(false);
+            map.hasLayer(circle).should.equal(false);
         });
 
         it('should be on map when dragged inside bbox', function () {
             map.panTo([0, 0], {animate: false});
             map.setZoom(14, {animate: false});
             map.panTo([51.505, -0.09], {animate: false});
-
-            var onMap = false;
-
-            map.eachLayer(function (layer) {
-                if (circle === layer) {
-                    onMap = true;
-                }
-            });
-            onMap.should.equal(true);
+            map.hasLayer(circle).should.equal(true);
         });
 
         it('should remove marker', function () {
             map.setZoom(10, {animate: false});
-            l.removeLayer(circle)
-
-            var onMap = false;
-
-            map.eachLayer(function (layer) {
-                if (circle.marker === layer || circle.marker === layer ) {
-                    onMap = true;
-                }
-            });
-            onMap.should.equal(false);
+            l.removeLayer(circle);
+            map.hasLayer(circle).should.equal(false);
+            map.hasLayer(circle.marker).should.equal(false);
         });
 
-        it('should remove polygon', function () {
+        it('should remove circle', function () {
             map.setZoom(13, {animate: false});
-            l.removeLayer(circle)
-
-            var onMap = false;
-
-            map.eachLayer(function (layer) {
-                if (circle.marker === layer || circle.marker === layer ) {
-                    onMap = true;
-                }
-            });
-            onMap.should.equal(false);
+            l.removeLayer(circle);
+            map.hasLayer(circle).should.equal(false);
+            map.hasLayer(circle.marker).should.equal(false);
         });
     });
 
@@ -267,14 +175,8 @@ describe('Leaflet.Deflate', function() {
             map.setZoom(13, {animate: false});
             l.clearLayers();
 
-            var onMap = false;
-
-            map.eachLayer(function (layer) {
-                if (polygon.marker === layer || polygon.marker === layer ) {
-                    onMap = true;
-                }
-            });
-            onMap.should.equal(false);
+            map.hasLayer(polygon).should.equal(false);
+            map.hasLayer(polygon.marker).should.equal(false);
         });
 
         it('should remove polygon', function () {
@@ -287,14 +189,8 @@ describe('Leaflet.Deflate', function() {
             map.setZoom(8, {animate: false});
             l.clearLayers();
 
-            var onMap = false;
-
-            map.eachLayer(function (layer) {
-                if (polygon.marker === layer || polygon.marker === layer ) {
-                    onMap = true;
-                }
-            });
-            onMap.should.equal(false);
+            map.hasLayer(polygon).should.equal(false);
+            map.hasLayer(polygon.marker).should.equal(false);
         });
 
         it('should remove point', function () {
@@ -302,15 +198,7 @@ describe('Leaflet.Deflate', function() {
 
             map.setZoom(13, {animate: false});
             l.clearLayers();
-
-            var onMap = false;
-
-            map.eachLayer(function (layer) {
-                if (marker === layer) {
-                    onMap = true;
-                }
-            });
-            onMap.should.equal(false);
+            map.hasLayer(marker).should.equal(false);
         });
     });
 
@@ -329,14 +217,8 @@ describe('Leaflet.Deflate', function() {
             map.setZoom(13, {animate: false});
             map.removeLayer(l);
 
-            var onMap = false;
-
-            map.eachLayer(function (layer) {
-                if (polygon.marker === layer || polygon.marker === layer ) {
-                    onMap = true;
-                }
-            });
-            onMap.should.equal(false);
+            map.hasLayer(polygon).should.equal(false);
+            map.hasLayer(polygon.marker).should.equal(false);
         });
 
         it('should remove polygon marker', function () {
@@ -349,14 +231,8 @@ describe('Leaflet.Deflate', function() {
             map.setZoom(10, {animate: false});
             map.removeLayer(l);
 
-            var onMap = false;
-
-            map.eachLayer(function (layer) {
-                if (polygon.marker === layer || polygon.marker === layer ) {
-                    onMap = true;
-                }
-            });
-            onMap.should.equal(false);
+            map.hasLayer(polygon).should.equal(false);
+            map.hasLayer(polygon.marker).should.equal(false);
         });
 
         it('should remove point', function () {
@@ -365,14 +241,7 @@ describe('Leaflet.Deflate', function() {
             map.setZoom(13, {animate: false});
             map.removeLayer(l);
 
-            var onMap = false;
-
-            map.eachLayer(function (layer) {
-                if (marker === layer) {
-                    onMap = true;
-                }
-            });
-            onMap.should.equal(false);
+            map.hasLayer(marker).should.equal(false);
         });
     });
 
