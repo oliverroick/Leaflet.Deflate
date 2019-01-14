@@ -8,7 +8,7 @@ L.Deflate = L.FeatureGroup.extend({
 
     initialize: function (options) {
         L.Util.setOptions(this, options);
-        this._allLayers = [];
+        this._layers = [];
         this._needsPrepping = [];
 
         this._featureLayer = options.markerCluster ? L.markerClusterGroup(this.options.markerClusterOptions) : L.featureGroup(options);
@@ -152,8 +152,8 @@ L.Deflate = L.FeatureGroup.extend({
             } else {
                 this._needsPrepping.push(layer);
             }
-
-            this._allLayers.push(layer);
+            var id = this.getLayerId(layer);
+            this._layers[id] = layer;
         }
     },
 
@@ -163,21 +163,21 @@ L.Deflate = L.FeatureGroup.extend({
                 this.removeLayer(layer._layers[i]);
             }
         } else {
-            this._featureLayer.removeLayer(layer);
-            if (layer.marker) { this._featureLayer.removeLayer(layer.marker); }
+            var id = layer in this._layers ? layer : this.getLayerId(layer);
 
-            var index;
-            index = this._allLayers.indexOf(layer);
-            if (index !== -1) { this._allLayers.splice(index, 1); }
+            this._featureLayer.removeLayer(this._layers[id]);
+            if (this._layers[id].marker) { this._featureLayer.removeLayer(this._layers[id].marker); }
 
-            index = this._needsPrepping.indexOf(layer);
+            delete this._layers[id];
+
+            var index = this._needsPrepping.indexOf(this._layers[id]);
             if (index !== -1) { this._needsPrepping.splice(index, 1); }
         }
     },
 
     clearLayers: function() {
         this._featureLayer.clearLayers();
-        this._allLayers = [];
+        this._layers = [];
     },
 
     _switchDisplay: function(layer, showMarker) {
@@ -194,12 +194,12 @@ L.Deflate = L.FeatureGroup.extend({
         var bounds = this._map.getBounds();
         var endZoom = this._map.getZoom();
 
-        for (var i = 0, len = this._allLayers.length; i < len; i++) {
-            if (this._allLayers[i].marker && this._allLayers[i].zoomState !== endZoom && this._allLayers[i].computedBounds.intersects(bounds)) {
-                this._switchDisplay(this._allLayers[i], endZoom <= this._allLayers[i].zoomThreshold);
-                this._allLayers[i].zoomState = endZoom;
+        this.eachLayer(function(layer) {
+            if (layer.marker && layer.zoomState !== endZoom && layer.computedBounds.intersects(bounds)) {
+                this._switchDisplay(layer, endZoom <= layer.zoomThreshold);
+                layer.zoomState = endZoom;
             }
-        }
+        }, this);
     },
 
     onAdd: function(map) {
@@ -210,8 +210,7 @@ L.Deflate = L.FeatureGroup.extend({
         var i, len;
         for (i = 0, len = this._needsPrepping.length; i < len; i++) {
             var layer = this._needsPrepping[i];
-            this._prepLayer(layer);
-            this._featureLayer.addLayer(layer);
+            this.addLayer(layer);
         }
         this._needsPrepping = [];
         this._deflate();
@@ -221,10 +220,6 @@ L.Deflate = L.FeatureGroup.extend({
         map.removeLayer(this._featureLayer);
         this._map.off("zoomend", this._deflate, this);
         this._map.off("moveend", this._deflate, this);
-    },
-
-    getLayers: function() {
-        return this._allLayers;
     }
 });
 
