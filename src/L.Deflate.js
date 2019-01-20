@@ -8,12 +8,10 @@ L.Deflate = L.FeatureGroup.extend({
 
     initialize: function (options) {
         L.Util.setOptions(this, options);
-        this._allLayers = [];
-        L.FeatureGroup.prototype.initialize.call(this, [], options);
+        this._layers = [];
+        this._needsPrepping = [];
 
-        if (options.markerCluster) {
-            this.clusterLayer = L.markerClusterGroup(this.options.markerClusterOptions);
-        }
+        this._featureLayer = options.markerCluster ? L.markerClusterGroup(this.options.markerClusterOptions) : L.featureGroup(options);
     },
 
     _getBounds: function(path) {
@@ -125,18 +123,21 @@ L.Deflate = L.FeatureGroup.extend({
         return marker
     },
 
+    _prepLayer: function(layer) {
+        if (layer.getBounds && !layer.zoomThreshold && !layer.marker) {
+            layer.computedBounds = this._getBounds(layer);
+
+            var zoomThreshold = this._getZoomThreshold(layer);
+
+            layer.zoomThreshold = zoomThreshold;
+            layer.marker = this._makeMarker(layer);
+            layer.zoomState = this._map.getZoom();
+        }
+    },
+
     _addToMap: function(layer) {
-        var layerToAdd = layer;
-
-        if (this._map.getZoom() <= layer.zoomThreshold) {
-           layerToAdd = layer.marker;
-        }
-
-        if (this.clusterLayer) {
-            this.clusterLayer.addLayer(layerToAdd);
-        } else {
-            L.FeatureGroup.prototype.addLayer.call(this, layerToAdd);
-        }
+        var layerToAdd = this._map.getZoom() <= layer.zoomThreshold ? layer.marker : layer;
+        this._featureLayer.addLayer(layerToAdd);
     },
 
     addLayer: function (layer) {
@@ -145,25 +146,15 @@ L.Deflate = L.FeatureGroup.extend({
                 this.addLayer(layer._layers[i]);
             }
         } else {
-            if (layer.getBounds && !layer.zoomThreshold && !layer.marker) {
-                layer.computedBounds = this._getBounds(layer);
-
-                var zoomThreshold = this._getZoomThreshold(layer);
-
-                layer.zoomThreshold = zoomThreshold;
-                layer.marker = this._makeMarker(layer);
-                layer.zoomState = this._map.getZoom();
+            if (this._map) {
+                this._prepLayer(layer);
+                this._addToMap(layer);
+            } else {
+                this._needsPrepping.push(layer);
             }
-
-            this._allLayers.push(layer);
-            this._addToMap(layer);
+            var id = this.getLayerId(layer);
+            this._layers[id] = layer;
         }
-    },
-
-    _removeFromMap: function(layer) {
-        var markerLayer = this.clusterLayer ? this.clusterLayer : this._map;
-        markerLayer.removeLayer(layer);
-        if (layer.marker) { markerLayer.removeLayer(layer.marker); }
     },
 
     removeLayer: function(layer) {
@@ -172,33 +163,30 @@ L.Deflate = L.FeatureGroup.extend({
                 this.removeLayer(layer._layers[i]);
             }
         } else {
-            this._removeFromMap(layer);
+            var id = layer in this._layers ? layer : this.getLayerId(layer);
 
-            var index = this._allLayers.indexOf(layer);
-            if (index !== -1) { this._allLayers.splice(index, 1); }
+            this._featureLayer.removeLayer(this._layers[id]);
+            if (this._layers[id].marker) { this._featureLayer.removeLayer(this._layers[id].marker); }
+
+            delete this._layers[id];
+
+            var index = this._needsPrepping.indexOf(this._layers[id]);
+            if (index !== -1) { this._needsPrepping.splice(index, 1); }
         }
     },
 
     clearLayers: function() {
-        if (this.clusterLayer) {
-            this.clusterLayer.clearLayers();
-            
-        } else {
-            for (i = 0, len = this._allLayers.length; i < len; i++) {
-                this._removeFromMap(this._allLayers[i]);
-            }
-        }
-        this._allLayers = [];
+        this._featureLayer.clearLayers();
+        this._layers = [];
     },
 
     _switchDisplay: function(layer, showMarker) {
-        var markerLayer = this.clusterLayer ? this.clusterLayer : this._map;
         if (showMarker) {
-            markerLayer.addLayer(layer.marker);
-            markerLayer.removeLayer(layer);
+            this._featureLayer.addLayer(layer.marker);
+            this._featureLayer.removeLayer(layer);
         } else {
-            markerLayer.addLayer(layer);
-            markerLayer.removeLayer(layer.marker);
+            this._featureLayer.addLayer(layer);
+            this._featureLayer.removeLayer(layer.marker);
         }
     },
 
@@ -206,32 +194,32 @@ L.Deflate = L.FeatureGroup.extend({
         var bounds = this._map.getBounds();
         var endZoom = this._map.getZoom();
 
-        for (var i = 0, len = this._allLayers.length; i < len; i++) {
-            if (this._allLayers[i].marker && this._allLayers[i].zoomState !== endZoom && this._allLayers[i].computedBounds.intersects(bounds)) {
-                this._switchDisplay(this._allLayers[i], endZoom <= this._allLayers[i].zoomThreshold);
-                this._allLayers[i].zoomState = endZoom;
+        this.eachLayer(function(layer) {
+            if (layer.marker && layer.zoomState !== endZoom && layer.computedBounds.intersects(bounds)) {
+                this._switchDisplay(layer, endZoom <= layer.zoomThreshold);
+                layer.zoomState = endZoom;
             }
-        }
+        }, this);
     },
 
     onAdd: function(map) {
-        var i, len;
-        if (this.clusterLayer) {this.clusterLayer.addTo(map)};
+        this._featureLayer.addTo(map);
         this._map.on("zoomend", this._deflate, this);
         this._map.on("moveend", this._deflate, this);
-        for (i = 0, len = this._allLayers.length; i < len; i++) {
-            this._addToMap(this._allLayers[i]);
+
+        var i, len;
+        for (i = 0, len = this._needsPrepping.length; i < len; i++) {
+            var layer = this._needsPrepping[i];
+            this.addLayer(layer);
         }
+        this._needsPrepping = [];
+        this._deflate();
     },
 
     onRemove: function(map) {
-        var i, len;
-        if (this.clusterLayer) {map.removeLayer(this.clusterLayer)};
+        map.removeLayer(this._featureLayer);
         this._map.off("zoomend", this._deflate, this);
         this._map.off("moveend", this._deflate, this);
-        for (i = 0, len = this._allLayers.length; i < len; i++) {
-            this._removeFromMap(this._allLayers[i]);
-        }
     }
 });
 
