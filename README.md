@@ -186,6 +186,40 @@ var polyline = L.polyline([
 deflate_features.addLayer(polyline);
 ```
 
+### Leaflet.Draw
+
+[Leaflet.Draw](https://github.com/Leaflet/Leaflet.draw) is a plugin that adds support for drawing and editing vector features on Leaflet maps. Leaflet.Deflate integrates with Leaflet.Draw.
+
+Initialize the [`Leaflet.draw` control](https://leaflet.github.io/Leaflet.draw/docs/leaflet-draw-latest#l-draw), instructing it to use the `L.deflate` instance to draw and edit features and add it to the map. 
+
+To ensure that newly added or edited features are deflated at the correct zoom level and show the marker at the correct location, you need call `prepLayer` with the edited layer on every change. In the example below, we call `prepLayer` inside the handler function for the [`L.Draw.Event.EDITED`](https://leaflet.github.io/Leaflet.draw/docs/leaflet-draw-latest#l-draw-event-draw:editstop) event.
+
+```javascript
+var map = L.map("map").setView([51.505, -0.09], 12);
+
+var deflate_features = L.deflate({minSize: 20, markerCluster: true});
+deflate_features.addTo(map);
+
+var drawControl = new L.Control.Draw({
+    draw: {
+        featureGroup: deflate_features
+    },
+    edit: {
+        featureGroup: deflate_features
+    }
+});
+map.addControl(drawControl);
+
+map.on(L.Draw.Event.EDITED, function(event) {
+    const editedLayers = event.layers;
+    editedLayers.eachLayer(function(l) {
+        deflate_features.prepLayer(l);
+    });
+});
+
+```
+
+
 ## Developing
 
 You'll need to install the dev dependencies to test and write the distribution file.

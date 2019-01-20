@@ -123,8 +123,8 @@ L.Deflate = L.FeatureGroup.extend({
         return marker
     },
 
-    _prepLayer: function(layer) {
-        if (layer.getBounds && !layer.zoomThreshold && !layer.marker) {
+    prepLayer: function(layer) {
+        if (layer.getBounds) {
             layer.computedBounds = this._getBounds(layer);
 
             var zoomThreshold = this._getZoomThreshold(layer);
@@ -147,7 +147,7 @@ L.Deflate = L.FeatureGroup.extend({
             }
         } else {
             if (this._map) {
-                this._prepLayer(layer);
+                this.prepLayer(layer);
                 this._addToMap(layer);
             } else {
                 this._needsPrepping.push(layer);

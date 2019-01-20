@@ -1,9 +1,9 @@
 <html>
     <head>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
-        <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet-src.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.13/leaflet.draw.css" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.13/leaflet.draw-src.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+        <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet-src.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw-src.js"></script>
         <script src="../src/L.Deflate.js"></script>
         <style>
             #map {
@@ -54,28 +54,19 @@
         .addTo(features);
 
         var drawControl = new L.Control.Draw({
+            draw: {
+                featureGroup: features
+            },
             edit: {
-                featureGroup: features._featureGroup
+                featureGroup: features
             }
         });
         map.addControl(drawControl);
 
-        map.on(L.Draw.Event.CREATED, function(event) {
-            event.layer.addTo(features);
-        });
-
-        map.on(L.Draw.Event.DELETED, function(event) {
-            const deletedLayers = event.layers;
-            
-            deletedLayers.eachLayer(function(l) {
-                features.removeLayer(l);
-            });
-        });
-
         map.on(L.Draw.Event.EDITED, function(event) {
             const editedLayers = event.layers;
             editedLayers.eachLayer(function(l) {
-                l.marker = features._makeMarker(l);
+                features.prepLayer(l);
             });
         });
     }
