@@ -141,7 +141,7 @@ L.Deflate = L.FeatureGroup.extend({
     },
 
     addLayer: function (layer) {
-        if (layer instanceof L.FeatureGroup) {
+        if (layer instanceof L.FeatureGroup && Object.keys(layer._layers).length) {
             for (var i in layer._layers) {
                 this.addLayer(layer._layers[i]);
             }
