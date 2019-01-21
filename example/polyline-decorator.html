@@ -1,0 +1,65 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
+        <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet-src.js"></script>
+        <script src="https://unpkg.com/leaflet-polylinedecorator@1.6.0/dist/leaflet.polylineDecorator.js"></script>
+        <script src="../src/L.Deflate.js"></script>
+        <style>
+            #map {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+            }
+        </style>
+    </head>
+
+    <div id="map"></div>
+
+    <script>
+
+    window.onload = function () {
+        var map = L.map("map").setView([51.550406, -0.140765], 16);
+
+        var baselayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        });
+        baselayer.addTo(map);
+
+        var features = L.deflate({minSize: 20});
+        features.addTo(map);
+
+        var polygon = L.polygon([
+            [51.551088, -0.144624],
+            [51.550818, -0.143648],
+            [51.550701, -0.143718],
+            [51.550351, -0.142398],
+            [51.550861, -0.142060],
+            [51.551155, -0.143160],
+            [51.551091, -0.143213],
+            [51.551408, -0.144410]
+        ]);
+        L.polylineDecorator(polygon, {
+            patterns: [
+                { offset: 12, repeat: 25, symbol: L.Symbol.dash({pixelSize: 10, pathOptions: {color: '#f00', weight: 2}}) },
+                { offset: 0, repeat: 25, symbol: L.Symbol.dash({pixelSize: 0}) }
+            ]
+        }).addTo(features);
+
+        var polyline = L.polyline([
+            [51.550836, -0.140684],
+            [51.550499, -0.140767],
+            [51.550021, -0.140834],
+            [51.549684, -0.140891]
+        ]);
+        L.polylineDecorator(polyline, {
+            patterns: [
+                // defines a pattern of 10px-wide dashes, repeated every 20px on the line
+                {offset: 0, repeat: 20, symbol: L.Symbol.dash({pixelSize: 10})}
+            ]
+        }).addTo(features);
+    }
+    </script>
+
+</html>
