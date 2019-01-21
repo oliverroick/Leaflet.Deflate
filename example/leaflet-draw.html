@@ -54,14 +54,16 @@
         .addTo(features);
 
         var drawControl = new L.Control.Draw({
-            draw: {
-                featureGroup: features
-            },
             edit: {
                 featureGroup: features
             }
         });
         map.addControl(drawControl);
+
+        map.on(L.Draw.Event.CREATED, function (event) {
+            var layer = event.layer;
+            features.addLayer(layer);
+        });
 
         map.on(L.Draw.Event.EDITED, function(event) {
             const editedLayers = event.layers;

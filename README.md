@@ -201,14 +201,16 @@ var deflate_features = L.deflate({minSize: 20, markerCluster: true});
 deflate_features.addTo(map);
 
 var drawControl = new L.Control.Draw({
-    draw: {
-        featureGroup: deflate_features
-    },
     edit: {
         featureGroup: deflate_features
     }
 });
 map.addControl(drawControl);
+
+map.on(L.Draw.Event.CREATED, function (event) {
+    var layer = event.layer;
+    deflate_features.addLayer(layer);
+});
 
 map.on(L.Draw.Event.EDITED, function(event) {
     const editedLayers = event.layers;
