@@ -11,6 +11,9 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "eslint": "^5.12.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.15.0",
     "mocha": "5.2.0",
     "mocha-chrome": "^2.0.0",
     "should": "13.2.3",
@@ -18,6 +21,7 @@
   },
   "scripts": {
     "test": "./node_modules/.bin/mocha-chrome tests/testrunner.html",
-    "dist": "./node_modules/.bin/uglifyjs --output dist/L.Deflate.js src/L.Deflate.js"
+    "dist": "./node_modules/.bin/uglifyjs --output dist/L.Deflate.js src/L.Deflate.js",
+    "lint": "./node_modules/.bin/eslint src tests"
   }
 }

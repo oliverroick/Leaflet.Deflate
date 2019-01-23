@@ -1,0 +1,23 @@
+{
+    "extends": "airbnb-base",
+    "parserOptions": {
+        "ecmaVersion": 5,
+        "sourceType": "script"
+    },
+    "globals": {
+        "L": true,
+        "describe": false,
+        "beforeEach": false,
+        "afterEach": false,
+        "it": false
+    },
+    "rules": {
+        "no-underscore-dangle": "off",
+        "no-var": "off",
+        "func-names": "off",
+        "object-shorthand": "off",
+        "prefer-destructuring": "off",
+        "no-param-reassign": "off",
+        "prefer-arrow-callback": "off"
+    }
+}
