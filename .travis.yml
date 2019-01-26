@@ -11,3 +11,27 @@ jobs:
   - stage: Lint
     node_js: "10"
     script: npm run lint
+  - stage: NPM release
+    if: tag IS PRESENT
+    repo: oliverroick/Leaflet.Deflate
+    node_js: "10"
+    script:
+      - npm run dist
+    skip_cleanup: true
+    before_deploy:
+      - PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
+      - echo $PACKAGE_VERSION
+      - |
+        if [[ "$PACKAGE_VERSION" != "$TRAVIS_TAG" ]]; then
+          echo "Git and NPM versions do not match. Have you updated package.json?"
+          exit 1
+        fi;
+    deploy:
+      provider: npm
+      email:
+        secure: aux4It7cNWlCTlzCpPSeN+9Bnb3UoootwCvmPMaI6Ph3CQ2SR0s/h/GGrQWDR4d3JciAD900wO8NsufEQEh3v70mouheCQH29DcR0m7AWSfClIccWFeAryTrBETIMYYBSaDMPPgDhBC/gqLxLbtKHer/8Nf3mkZnuwleu6el5vo=
+      api_key:
+        secure: fA5fkaReEVVR9iXM2BrLU4prTF2QbcDrUKfKvCe/XL0ByspZTxm3N9ETz6RqQKcKAO9UFCG88slookW2V9XXDPFyc5glPAzDTAu8yJr0ft4iR2zj54yWm6VILb+d1TM+liMA3lGzIpoJe6JX0iVrSJ0MgtHgbQrOXR44uV4UZTg=
+      on:
+        tags: true
+        repo: oliverroick/Leaflet.Deflate
