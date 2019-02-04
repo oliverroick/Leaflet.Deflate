@@ -26,6 +26,11 @@ jobs:
           echo "Git and NPM versions do not match. Have you updated package.json?"
           exit 1
         fi;
+      - |
+        if [[ $(git diff) ]]; then
+          echo "Looks like you haven't commited the new build yet."
+          exit 1
+        fi;
     deploy:
       provider: npm
       email:
