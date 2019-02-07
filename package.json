@@ -1,7 +1,7 @@
 {
   "name": "Leaflet.Deflate",
   "author": "Oliver Roick",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Deflates lines and polygons to a marker when their screen size becomes too small in lower zoom levels.",
   "license": "Apache-2.0",
   "repository": {
