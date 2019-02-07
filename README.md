@@ -2,6 +2,7 @@
 
 
 [![Build Status](https://travis-ci.org/oliverroick/Leaflet.Deflate.svg?branch=master)](https://travis-ci.org/oliverroick/Leaflet.Deflate)
+[![npm version](https://badge.fury.io/js/Leaflet.Deflate.svg)](https://badge.fury.io/js/Leaflet.Deflate)
 [![Greenkeeper](https://badges.greenkeeper.io/oliverroick/Leaflet.Deflate.svg)](https://greenkeeper.io/)
 
 Substitutes polygons and lines with markers when their screen size falls below a defined threshold.
