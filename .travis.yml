@@ -4,17 +4,17 @@ addons:
   chrome: stable
 language: node_js
 node_js:
-  - "8"
   - "10"
 jobs:
   include:
-  - stage: Lint
-    node_js: "10"
-    script: npm run lint
+  - script: npm test
+    name: "Tests"
+  - script: npm run lint
+    name: "Lint"
   - stage: NPM release
+    name: "Deploy tag"
     if: tag IS PRESENT
     repo: oliverroick/Leaflet.Deflate
-    node_js: "10"
     script:
       - npm run dist
     skip_cleanup: true
