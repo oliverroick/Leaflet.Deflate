@@ -28,7 +28,7 @@ jobs:
         fi;
       - |
         if [[ $(git diff) ]]; then
-          echo "Looks like you haven't commited the new build yet."
+          echo "Looks like you haven't committed the new build yet."
           exit 1
         fi;
     deploy:
