@@ -7,7 +7,7 @@
 
 Substitutes polygons and lines with markers when their screen size falls below a defined threshold.
 
-![Example](https://cloud.githubusercontent.com/assets/159510/7164588/090c06fe-e399-11e4-956d-0283ef7e69cf.gif)
+![Example](https://user-images.githubusercontent.com/159510/52898557-a491d700-31df-11e9-86c4-7a585dc50372.gif)
 
 ## Installation
 
