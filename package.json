@@ -5,8 +5,8 @@
   "description": "Deflates lines and polygons to a marker when their screen size becomes too small in lower zoom levels.",
   "license": "Apache-2.0",
   "repository": {
-    "type" : "git",
-    "url" : "git://github.com/oliverroick/Leaflet.Deflate"
+    "type": "git",
+    "url": "git://github.com/oliverroick/Leaflet.Deflate"
   },
   "homepage": "https://github.com/oliverroick/Leaflet.Deflate",
   "bugs": "https://github.com/oliverroick/Leaflet.Deflate/issues",
@@ -21,7 +21,7 @@
     "eslint": "^5.12.1",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.15.0",
-    "mocha": "6.0.0",
+    "mocha": "6.0.2",
     "mocha-chrome": "^2.0.0",
     "should": "13.2.3",
     "uglify-js": "^3.4.9"
