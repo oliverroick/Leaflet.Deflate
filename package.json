@@ -24,7 +24,7 @@
     "mocha": "6.1.4",
     "mocha-chrome": "^2.0.0",
     "should": "13.2.3",
-    "uglify-js": "3.6.0"
+    "uglify-js": "3.6.1"
   },
   "peerDependencies": {
     "leaflet": "^1.0.0"
