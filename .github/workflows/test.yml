@@ -1,0 +1,38 @@
+name: "Test & Lint"
+
+on:
+  push:
+    branches: [master, ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [master]
+
+jobs:
+  test:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup node
+      uses: actions/setup-node@v1
+    - name: test
+      run: |
+        npm ci
+        npm test
+      env:
+        CI: true
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup node
+      uses: actions/setup-node@v1
+    - name: lint
+      run: |
+        npm ci
+        npm run lint
+      env:
+        CI: true
