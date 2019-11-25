@@ -18,9 +18,9 @@
     "example": "example"
   },
   "devDependencies": {
-    "eslint": "6.0.1",
-    "eslint-config-airbnb-base": "^13.2.0",
-    "eslint-plugin-import": "^2.18.0",
+    "eslint": "6.7.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
     "mocha": "6.1.4",
     "mocha-chrome": "^2.0.0",
     "should": "13.2.3",
