@@ -577,6 +577,20 @@ describe('Leaflet.Deflate', function () {
       should.doesNotThrow(() => { polygon.addTo(l); });
     });
 
+    it('should allow L.circleMarker as markerType', function () {
+      l = L.deflate({
+        minSize: 20,
+        markerType: L.circleMarker,
+      }).addTo(map);
+
+      const polygon = L.polygon([
+        [51.509, -0.08],
+        [51.503, -0.06],
+        [51.51, -0.047],
+      ]);
+      should.doesNotThrow(() => { polygon.addTo(l); });
+    });
+
     it('should not allow L.polygon as markerType', function () {
       l = L.deflate({
         minSize: 20,
