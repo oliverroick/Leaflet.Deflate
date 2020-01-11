@@ -562,6 +562,35 @@ describe('Leaflet.Deflate', function () {
 
   describe('Marker', function () {
     const iconPath = '../example/img/marker.png';
+
+    it('should allow L.marker as markerType', function () {
+      l = L.deflate({
+        minSize: 20,
+        markerType: L.marker,
+      }).addTo(map);
+
+      const polygon = L.polygon([
+        [51.509, -0.08],
+        [51.503, -0.06],
+        [51.51, -0.047],
+      ]);
+      should.doesNotThrow(() => { polygon.addTo(l); });
+    });
+
+    it('should not allow L.polygon as markerType', function () {
+      l = L.deflate({
+        minSize: 20,
+        markerType: L.polygon,
+      }).addTo(map);
+
+      const polygon = L.polygon([
+        [51.509, -0.08],
+        [51.503, -0.06],
+        [51.51, -0.047],
+      ]);
+      should.throws(() => { polygon.addTo(l); });
+    });
+
     it('should use icon', function () {
       const myIcon = L.icon({
         iconUrl: iconPath,

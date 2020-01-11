@@ -9,7 +9,8 @@
         "describe": false,
         "beforeEach": false,
         "afterEach": false,
-        "it": false
+        "it": false,
+        "should": false
     },
     "rules": {
         "no-underscore-dangle": "off",

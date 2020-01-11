@@ -6,6 +6,7 @@ L.Deflate = L.FeatureGroup.extend({
     markerCluster: false,
     markerOptions: {},
     markerClusterOptions: {},
+    markerType: L.marker,
   },
 
   initialize: function (options) {
@@ -106,10 +107,14 @@ L.Deflate = L.FeatureGroup.extend({
   },
 
   _makeMarker: function (layer) {
+    const allowedMarkerTypes = [L.marker];
+    if (!allowedMarkerTypes.includes(this.options.markerType)) {
+      throw new Error(`Invalid markerType provided. Allowed markerTypes are: ${allowedMarkerTypes.join(', ')}`);
+    }
     const markerOptions = typeof this.options.markerOptions === 'function'
       ? this.options.markerOptions(layer)
       : this.options.markerOptions;
-    const marker = L.marker(layer.computedBounds.getCenter(), markerOptions);
+    const marker = this.options.markerType(layer.computedBounds.getCenter(), markerOptions);
     const markerFeature = layer.feature ? marker.toGeoJSON() : undefined;
 
     this._bindEvents(marker, layer);
