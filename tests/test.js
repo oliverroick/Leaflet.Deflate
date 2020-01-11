@@ -1,8 +1,8 @@
 'use strict';
 
 describe('Leaflet.Deflate', function () {
-  var map;
-  var l;
+  let map;
+  let l;
 
   beforeEach(function () {
     map = L.map('map').setView([51.505, -0.09], 10);
@@ -13,7 +13,7 @@ describe('Leaflet.Deflate', function () {
   });
 
   describe('FeatureLayer', function () {
-    var polygon;
+    let polygon;
     beforeEach(function () {
       l = L.deflate({ minSize: 20 });
 
@@ -47,7 +47,7 @@ describe('Leaflet.Deflate', function () {
     });
 
     it('adds additional features when the layer is re-added', function () {
-      var otherPolygon = L.polygon([
+      const otherPolygon = L.polygon([
         [52.509, -1.08],
         [52.503, -1.06],
         [52.51, -1.047],
@@ -69,7 +69,7 @@ describe('Leaflet.Deflate', function () {
   });
 
   describe('Polygon', function () {
-    var polygon;
+    let polygon;
     beforeEach(function () {
       l = L.deflate({ minSize: 20 }).addTo(map);
 
@@ -119,7 +119,7 @@ describe('Leaflet.Deflate', function () {
   });
 
   describe('Circle', function () {
-    var circle;
+    let circle;
     beforeEach(function () {
       l = L.deflate({ minSize: 20 }).addTo(map);
 
@@ -170,7 +170,7 @@ describe('Leaflet.Deflate', function () {
     });
 
     it('should remove polygon', function () {
-      var polygon = L.polygon([
+      const polygon = L.polygon([
         [51.509, -0.08],
         [51.503, -0.06],
         [51.51, -0.047],
@@ -184,7 +184,7 @@ describe('Leaflet.Deflate', function () {
     });
 
     it('should remove polygon', function () {
-      var polygon = L.polygon([
+      const polygon = L.polygon([
         [51.509, -0.08],
         [51.503, -0.06],
         [51.51, -0.047],
@@ -198,7 +198,7 @@ describe('Leaflet.Deflate', function () {
     });
 
     it('should remove point', function () {
-      var marker = L.marker([51.509, -0.08]).addTo(l);
+      const marker = L.marker([51.509, -0.08]).addTo(l);
 
       map.setZoom(13, { animate: false });
       l.clearLayers();
@@ -212,7 +212,7 @@ describe('Leaflet.Deflate', function () {
     });
 
     it('should remove polygon', function () {
-      var polygon = L.polygon([
+      const polygon = L.polygon([
         [51.509, -0.08],
         [51.503, -0.06],
         [51.51, -0.047],
@@ -226,7 +226,7 @@ describe('Leaflet.Deflate', function () {
     });
 
     it('should remove polygon marker', function () {
-      var polygon = L.polygon([
+      const polygon = L.polygon([
         [51.509, -0.08],
         [51.503, -0.06],
         [51.51, -0.047],
@@ -240,7 +240,7 @@ describe('Leaflet.Deflate', function () {
     });
 
     it('should remove point', function () {
-      var marker = L.marker([51.509, -0.08]).addTo(l);
+      const marker = L.marker([51.509, -0.08]).addTo(l);
 
       map.setZoom(13, { animate: false });
       map.removeLayer(l);
@@ -250,8 +250,9 @@ describe('Leaflet.Deflate', function () {
   });
 
   describe('GeoJSON', function () {
+    let json;
     beforeEach(function () {
-      var json = {
+      json = {
         type: 'FeatureCollection',
         features: [
           {
@@ -374,7 +375,7 @@ describe('Leaflet.Deflate', function () {
     });
 
     it('zoom == 10: 2 polygons should be on the map', function () {
-      var count = 0;
+      let count = 0;
       map.setZoom(10, { animate: false });
       map.eachLayer(function (layer) {
         if (layer.zoomThreshold && layer.getBounds) { count += 1; }
@@ -383,7 +384,7 @@ describe('Leaflet.Deflate', function () {
     });
 
     it('zoom == 11: 3 polygons should be on the map', function () {
-      var count = 0;
+      let count = 0;
       map.setZoom(11, { animate: false });
       map.eachLayer(function (layer) {
         if (layer.zoomThreshold && layer.getBounds) { count += 1; }
@@ -392,14 +393,14 @@ describe('Leaflet.Deflate', function () {
     });
 
     it('passed feature properties to marker', function () {
-      var layer = l.getLayers()[0];
+      const layer = l.getLayers()[0];
       layer.marker.feature.geometry.should.deepEqual(layer.marker.toGeoJSON().geometry);
       layer.marker.feature.properties.should.deepEqual(layer.feature.properties);
     });
   });
 
   describe('Events', function () {
-    var json = {
+    const json = {
       type: 'FeatureCollection',
       features: [{
         type: 'Feature',
@@ -440,8 +441,8 @@ describe('Leaflet.Deflate', function () {
     };
 
     it('passes event listeners to marker', function () {
-      var callback = function () {};
-      var polygon = L.polygon([
+      const callback = function () {};
+      const polygon = L.polygon([
         [51.509, -0.08],
         [51.503, -0.06],
         [51.51, -0.047],
@@ -456,7 +457,7 @@ describe('Leaflet.Deflate', function () {
     });
 
     it('passes popup to marker', function () {
-      var polygon = L.polygon([
+      const polygon = L.polygon([
         [51.509, -0.08],
         [51.503, -0.06],
         [51.51, -0.047],
@@ -470,7 +471,7 @@ describe('Leaflet.Deflate', function () {
     });
 
     it('passes popup options to marker', function () {
-      var polygon = L.polygon([
+      const polygon = L.polygon([
         [51.509, -0.08],
         [51.503, -0.06],
         [51.51, -0.047],
@@ -485,7 +486,7 @@ describe('Leaflet.Deflate', function () {
     });
 
     it('passes tooltip to marker', function () {
-      var polygon = L.polygon([
+      const polygon = L.polygon([
         [51.509, -0.08],
         [51.503, -0.06],
         [51.51, -0.047],
@@ -500,7 +501,7 @@ describe('Leaflet.Deflate', function () {
     });
 
     it('passes tooltip options to marker', function () {
-      var polygon = L.polygon([
+      const polygon = L.polygon([
         [51.509, -0.08],
         [51.503, -0.06],
         [51.51, -0.047],
@@ -516,7 +517,7 @@ describe('Leaflet.Deflate', function () {
     });
 
     it('passes events from GeoJSON to marker', function () {
-      var callback = function () {};
+      const callback = function () {};
       l = L.deflate({ minSize: 20 }).addTo(map);
       L.geoJson(json).on('click', callback).addTo(l);
 
@@ -560,13 +561,13 @@ describe('Leaflet.Deflate', function () {
   });
 
   describe('Marker', function () {
-    var iconPath = '../example/img/marker.png';
+    const iconPath = '../example/img/marker.png';
     it('should use icon', function () {
-      var myIcon = L.icon({
+      const myIcon = L.icon({
         iconUrl: iconPath,
         iconSize: [24, 24],
       });
-      var polygon = L.polygon([
+      const polygon = L.polygon([
         [51.509, -0.08],
         [51.503, -0.06],
         [51.51, -0.047],
@@ -581,7 +582,7 @@ describe('Leaflet.Deflate', function () {
     });
 
     it('should use marker function', function () {
-      var polygon = L.polygon([
+      const polygon = L.polygon([
         [51.509, -0.08],
         [51.503, -0.06],
         [51.51, -0.047],
