@@ -66,7 +66,8 @@ Factory                       | Description
 Option          | Type      | Default | Description
 --------------- | --------- | ------- | -------------
 `minSize`       | `int`     | `20`    | Optional. Defines the minimum width and height in pixels for a path to be displayed in its actual shape. Anything smaller than the defined `minSize` will be deflated.
-`markerOptions` | `object` or `function`  | `{}`    | Optional. Customize the markers of deflated features using [Leaflet marker options](http://leafletjs.com/reference-1.3.0.html#marker).
+`markerType`    | `object`  | `L.marker` | Optional. Specifies the marker type to use for deflated features. Must be either `L.marker` or `L.circleMarker`.
+`markerOptions` | `object` or `function`  | `{}`    | Optional. Customize the markers of deflated features using [Leaflet marker options](http://leafletjs.com/reference-1.3.0.html#marker). If you specify `L.circleMarker` as `markerType` use [Leaflet circleMarker options](https://leafletjs.com/reference-1.3.0.html#circlemarker) instead.
 `markerCluster` | `boolean` | `false` | Indicates whether markers should be clustered. Requires [`Leaflet.MarkerCluser`](https://github.com/Leaflet/Leaflet.markercluster).
 `markerClusterOptions` | `object` | `{}`    | Optional. Customize the appearance and behaviour of clustered markers using [`Leaflet.markercluster` options](https://github.com/Leaflet/Leaflet.markercluster#options).
 
