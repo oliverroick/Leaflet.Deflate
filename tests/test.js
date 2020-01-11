@@ -183,7 +183,7 @@ describe('Leaflet.Deflate', function () {
       map.hasLayer(polygon.marker).should.equal(false);
     });
 
-    it('should remove polygon', function () {
+    it('should remove polygon marker', function () {
       const polygon = L.polygon([
         [51.509, -0.08],
         [51.503, -0.06],
