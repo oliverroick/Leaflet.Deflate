@@ -166,6 +166,22 @@ const features = L.deflate({minSize: 20, markerOptions: options});
 features.addTo(map);
 ```
 
+### CircleMarkers
+
+Alternatively to standard markers, you can use [`CircleMarker`](https://leafletjs.com/reference-1.6.0.html#circlemarker) objects to represent deflated features on the map.
+
+To use default circle markers, specify the `markerType` option.
+
+```javascript
+const map = L.map("map").setView([51.550406, -0.140765], 16);
+
+const features = L.deflate({
+    minSize: 20,
+    markerType: L.circleMarker
+});
+features.addTo(map);
+```
+
 ### Cluster Markers
 
 Using [Leaflet.Markercluster](https://github.com/Leaflet/Leaflet.markercluster>), you can cluster markers. To enable clustered markers on a map:
