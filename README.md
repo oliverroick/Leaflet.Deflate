@@ -182,6 +182,54 @@ const features = L.deflate({
 features.addTo(map);
 ```
 
+#### Customise CircleMarker
+
+Similar to standard markers, you can customise how circle markers are displayed using the `markerOptions` property. There are to options to provide the options for circle markers:
+
+- A [CircleMarker-options object](https://leafletjs.com/reference-1.6.0.html#circlemarker-option), or 
+- A function that returns a CircleMarker-options object.
+
+##### Define custom circle markers using a CircleMarker options object
+
+```javascript
+const map = L.map("map").setView([51.550406, -0.140765], 16);
+
+const features = L.deflate({
+    minSize: 20,
+    markerType: L.circleMarker,
+    markerOptions: {
+        radius: 3,
+        color: '#ff0000'
+    }
+});
+features.addTo(map);
+```
+
+##### Define custom markers using a function
+
+```javascript
+const map = L.map("map").setView([51.550406, -0.140765], 16);
+
+function options(f) {
+    // Use custom marker only for buildings
+    if (f.feature.properties.type === 'building') {
+        return {
+            radius: 3,
+            color: '#ff0000'
+        }
+    }
+
+    return {};
+}
+
+const features = L.deflate({
+    minSize: 20,
+    markerType: L.circleMarker,
+    markerOptions: options
+});
+features.addTo(map);
+```
+
 ### Cluster Markers
 
 Using [Leaflet.Markercluster](https://github.com/Leaflet/Leaflet.markercluster>), you can cluster markers. To enable clustered markers on a map:
