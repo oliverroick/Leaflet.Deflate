@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/oliverroick/Leaflet.Deflate.svg?branch=master)](https://travis-ci.org/oliverroick/Leaflet.Deflate)
 [![npm version](https://badge.fury.io/js/Leaflet.Deflate.svg)](https://badge.fury.io/js/Leaflet.Deflate)
 
-Substitutes polygons and lines with markers when their screen size falls below a defined threshold.
+Leaflet.Deflate is a plugin for [Leaflet](https://leafletjs.com/) that improves the readability of large-scale web maps. It substitutes polygons and lines with markers when their screen size falls below a defined threshold.
 
 ![Example](https://user-images.githubusercontent.com/159510/52898557-a491d700-31df-11e9-86c4-7a585dc50372.gif)
 
@@ -32,19 +32,19 @@ You will find a copy of the release files in `node_modules/Leaflet.Deflate/dist`
 
 ### `L.deflate`
 
-The central class of the `Leaflet.Deflate`. It is used to create a feature group that deflates all layers added to the group.
+`L.deflate` is the main class of `Leaflet.Deflate`. Use it to create a feature group that deflates all layers added to the group.
 
 #### Usage example
 
-Initialize a new `L.deflate` feature group and add it to your map. Then add layers you want to deflate.
+Initialize `L.deflate` and add it to your map. Then add layers you want to deflate.
 
 ```javascript
-var map = L.map("map");
-var features = L.deflate({minSize: 10})
+const map = L.map("map");
+const features = L.deflate({minSize: 10})
 features.addTo(map);
 
 // add layers
-var polygon = L.polygon([
+const polygon = L.polygon([
     [51.509, -0.08],
     [51.503, -0.06],
     [51.51, -0.047]
@@ -65,9 +65,9 @@ Factory                       | Description
 
 Option          | Type      | Default | Description
 --------------- | --------- | ------- | -------------
-`minSize`       | `int`     | `20`    | Defines the minimum width and height in pixels for a path to be displayed in its actual shape.
+`minSize`       | `int`     | `20`    | Optional. Defines the minimum width and height in pixels for a path to be displayed in its actual shape. Anything smaller than the defined `minSize` will be deflated.
 `markerOptions` | `object` or `function`  | `{}`    | Optional. Customize the markers of deflated features using [Leaflet marker options](http://leafletjs.com/reference-1.3.0.html#marker).
-`markerCluster` | `boolean` | `false` | Indicates whether markers should be clustered. Requires `Leaflet.MarkerCluser`.
+`markerCluster` | `boolean` | `false` | Indicates whether markers should be clustered. Requires [`Leaflet.MarkerCluser`](https://github.com/Leaflet/Leaflet.markercluster).
 `markerClusterOptions` | `object` | `{}`    | Optional. Customize the appearance and behaviour of clustered markers using [`Leaflet.markercluster` options](https://github.com/Leaflet/Leaflet.markercluster#options).
 
 ## Examples
@@ -76,71 +76,76 @@ Option          | Type      | Default | Description
 
 To create a basic deflatable layer, you have to
 
-1. Create an `L.Deflate` feature group and add it to your map.
+1. Create an `L.deflate` feature group and add it to your map.
 2. Add features to the `L.Deflate` feature group.
 
 ```javascript
-var map = L.map("map").setView([51.505, -0.09], 12);
+const map = L.map("map").setView([51.505, -0.09], 12);
 
-var deflate_features = L.deflate({minSize: 20});
+const deflate_features = L.deflate({minSize: 20});
 deflate_features.addTo(map);
 
-var polygon = L.polygon([
+const polygon = L.polygon([
     [51.509, -0.08],
     [51.503, -0.06],
     [51.51, -0.047]
 ]);
-deflate_features.addLayer(polygon);
+polygon.addTo(deflate_features);
 
-var polyline = L.polyline([
+const polyline = L.polyline([
     [51.52, -0.05],
     [51.53, -0.10],
 ], {color: 'red'});
-deflate_features.addLayer(polyline);
+polyline.addTo(deflate_features);
 ```
 
 ### GeoJSON
 
-Also works with [`GeoJSON` layers](http://leafletjs.com/reference-1.3.0.html#geojson).
+[`GeoJSON` layers](http://leafletjs.com/reference-1.3.0.html#geojson) can be added in the same way:
 
 ```javascript
-var map = L.map("map").setView([51.505, -0.09], 12);
+const map = L.map("map").setView([51.505, -0.09], 12);
 
-var deflate_features = L.deflate({minSize: 20});
+const deflate_features = L.deflate({minSize: 20});
 deflate_features.addTo(map);
 
-var json = {
+const json = {
     "type": "FeatureCollection",
     "features": [{}]
 }
 
-L.geoJson(json, {style: {color: '#0000FF'}}).addTo(features);
+L.geoJson(json, {style: {color: '#0000FF'}}).addTo(deflate_features);
 ```
 
 ### Custom markers
 
-You can change the appearance of markers representing deflated features either by providing a [marker-options object](http://leafletjs.com/reference-1.3.0.html#marker-option) or a function that returns a marker-options object. Providing a marker-options object is usually sufficient, you would typically choose to provide a function if you want to base to marker appearance on the feature's properties.
+You can change the appearance of markers representing deflated features by providing:
 
-Provide the object or function to the `markerOption` property when initializing `L.deflate`.
+- A [marker-options object](http://leafletjs.com/reference-1.3.0.html#marker-option), or 
+- A function that returns a marker-options object. 
+
+Providing a marker-options object is usually sufficient. You would typically choose to provide a function if you want to base the marker appearance on the feature's properties.
+
+Provide the object or function to the `markerOptions` property when initializing `L.deflate`.
 
 #### Define custom markers using a marker options object
 
 ```javascript
-var map = L.map("map").setView([51.550406, -0.140765], 16);
+const map = L.map("map").setView([51.550406, -0.140765], 16);
 
-var myIcon = L.icon({
+const myIcon = L.icon({
   iconUrl: 'img/marker.png',
   iconSize: [24, 24]
 });
 
-var features = L.deflate({minSize: 20, markerOptions: {icon: myIcon}});
+const features = L.deflate({minSize: 20, markerOptions: {icon: myIcon}});
 features.addTo(map);
 ```
 
 #### Define custom markers using a function
 
 ```javascript
-var map = L.map("map").setView([51.550406, -0.140765], 16);
+const map = L.map("map").setView([51.550406, -0.140765], 16);
 
 function options(f) {
     // Use custom marker only for buildings
@@ -156,49 +161,52 @@ function options(f) {
     return {};
 }
 
-var features = L.deflate({minSize: 20, markerOptions: options});
+const features = L.deflate({minSize: 20, markerOptions: options});
 features.addTo(map);
 ```
 
 ### Cluster Markers
 
-With a little help from [Leaflet.Markercluster](https://github.com/Leaflet/Leaflet.markercluster>) you can cluster markers. Add the Leaflet.Markercluster libraries to the `head` section of your document as [described in the docs](https://github.com/Leaflet/Leaflet.markercluster#using-the-plugin>). Then enable clustering by adding `markerCluster: true` to the options when initializing `L.deflate`.
+Using [Leaflet.Markercluster](https://github.com/Leaflet/Leaflet.markercluster>), you can cluster markers. To enable clustered markers on a map:
+
+1. Add the `Leaflet.Markercluster` libraries to the `head` section of your document as [described in the MarkerCluster documentation](https://github.com/Leaflet/Leaflet.markercluster#using-the-plugin>).
+2. Enable clustering by adding `markerCluster: true` to the options when initializing `L.deflate`.
 
 ```javascript
-var map = L.map("map").setView([51.505, -0.09], 12);
+const map = L.map("map").setView([51.505, -0.09], 12);
 
-var deflate_features = L.deflate({minSize: 20, markerCluster: true});
+const deflate_features = L.deflate({minSize: 20, markerCluster: true});
 deflate_features.addTo(map);
 
-var polygon = L.polygon([
+const polygon = L.polygon([
     [51.509, -0.08],
     [51.503, -0.06],
     [51.51, -0.047]
 ]);
-deflate_features.addLayer(polygon);
+polygon.addTo(deflate_features)
 
-var polyline = L.polyline([
+const polyline = L.polyline([
     [51.52, -0.05],
     [51.53, -0.10],
 ], {color: 'red'});
-deflate_features.addLayer(polyline);
+polyline.addTo(deflate_features)
 ```
 
 ### Leaflet.Draw
 
-[Leaflet.Draw](https://github.com/Leaflet/Leaflet.draw) is a plugin that adds support for drawing and editing vector features on Leaflet maps. Leaflet.Deflate integrates with Leaflet.Draw.
+[`Leaflet.Draw`](https://github.com/Leaflet/Leaflet.draw) is a plugin that adds support for drawing and editing vector features on Leaflet maps. `Leaflet.Deflate` integrates with `Leaflet.Draw`.
 
-Initialize the [`Leaflet.draw` control](https://leaflet.github.io/Leaflet.draw/docs/leaflet-draw-latest#l-draw), instructing it to use the `L.deflate` instance to draw and edit features and add it to the map. 
+Initialize the [`Leaflet.draw` control](https://leaflet.github.io/Leaflet.draw/docs/leaflet-draw-latest#l-draw). Use the `L.deflate` instance to draw and edit features and add it the map. 
 
-To ensure that newly added or edited features are deflated at the correct zoom level and show the marker at the correct location, you need call `prepLayer` with the edited layer on every change. In the example below, we call `prepLayer` inside the handler function for the [`L.Draw.Event.EDITED`](https://leaflet.github.io/Leaflet.draw/docs/leaflet-draw-latest#l-draw-event-draw:editstop) event.
+To ensure that newly added or edited features are deflated at the correct zoom level and show the marker at the correct location, you need to call `prepLayer` with the edited layer on every change. In the example below, we call `prepLayer` inside the handler function for the [`L.Draw.Event.EDITED`](https://leaflet.github.io/Leaflet.draw/docs/leaflet-draw-latest#l-draw-event-draw:editstop) event.
 
 ```javascript
-var map = L.map("map").setView([51.505, -0.09], 12);
+const map = L.map("map").setView([51.505, -0.09], 12);
 
-var deflate_features = L.deflate({minSize: 20, markerCluster: true});
+const deflate_features = L.deflate({minSize: 20, markerCluster: true});
 deflate_features.addTo(map);
 
-var drawControl = new L.Control.Draw({
+const drawControl = new L.Control.Draw({
     edit: {
         featureGroup: deflate_features
     }
@@ -206,7 +214,7 @@ var drawControl = new L.Control.Draw({
 map.addControl(drawControl);
 
 map.on(L.Draw.Event.CREATED, function (event) {
-    var layer = event.layer;
+    const layer = event.layer;
     deflate_features.addLayer(layer);
 });
 
@@ -232,6 +240,12 @@ To run tests:
 
 ```
 npm test
+```
+
+To run eslint on source and test code:
+
+```
+npm run lint
 ```
 
 To write a minified JS into dist:
