@@ -119,7 +119,7 @@ L.geoJson(json, {style: {color: '#0000FF'}}).addTo(features);
 
 ### Custom markers
 
-You can change the appearance of markers representing deflated features either by providing a [marker options object](http://leafletjs.com/reference-1.3.0.html#marker-option) of a function that returns a marker options object. Usually providing a marker options objects is sufficient for most use cases, you would typically choose to provide a function if you want to base to marker appearance on the feature's properties.
+You can change the appearance of markers representing deflated features either by providing a [marker-options object](http://leafletjs.com/reference-1.3.0.html#marker-option) or a function that returns a marker-options object. Providing a marker-options object is usually sufficient, you would typically choose to provide a function if you want to base to marker appearance on the feature's properties.
 
 Provide the object or function to the `markerOption` property when initializing `L.deflate`.
 
