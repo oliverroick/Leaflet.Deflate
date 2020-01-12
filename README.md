@@ -30,13 +30,13 @@ You will find a copy of the release files in `node_modules/Leaflet.Deflate/dist`
 
 ## API
 
-### `L.Deflate`
+### `L.deflate`
 
 The central class of the `Leaflet.Deflate`. It is used to create a feature group that deflates all layers added to the group.
 
 #### Usage example
 
-Initialize a new `L.Deflate` feature group, add it too your map and add layers you want to deflate.
+Initialize a new `L.deflate` feature group and add it to your map. Then add layers you want to deflate.
 
 ```javascript
 var map = L.map("map");
