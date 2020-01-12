@@ -109,7 +109,7 @@ L.Deflate = L.FeatureGroup.extend({
   _makeMarker: function (layer) {
     const allowedMarkerTypes = [L.marker, L.circleMarker];
     if (!allowedMarkerTypes.includes(this.options.markerType)) {
-      throw new Error(`Invalid markerType provided. Allowed markerTypes are: ${allowedMarkerTypes.join(', ')}`);
+      throw new Error('Invalid markerType provided. Allowed markerTypes are: L.marker and L.circleMarker');
     }
     const markerOptions = typeof this.options.markerOptions === 'function'
       ? this.options.markerOptions(layer)
