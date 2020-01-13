@@ -39,8 +39,8 @@ L.Deflate = L.FeatureGroup.extend({
     const northEastPixels = this._map.project(bounds.getNorthEast(), zoom);
     const southWestPixels = this._map.project(bounds.getSouthWest(), zoom);
 
-    const width = northEastPixels.x - southWestPixels.x;
-    const height = southWestPixels.y - northEastPixels.y;
+    const width = Math.abs(northEastPixels.x - southWestPixels.x);
+    const height = Math.abs(southWestPixels.y - northEastPixels.y);
     return (height < this.options.minSize || width < this.options.minSize);
   },
 
