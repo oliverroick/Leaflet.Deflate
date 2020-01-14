@@ -24,6 +24,7 @@
     "mocha": "6.2.2",
     "mocha-chrome": "^2.2.0",
     "should": "13.2.3",
+    "terser": "^4.6.3",
     "uglify-js": "3.7.0"
   },
   "peerDependencies": {
@@ -31,7 +32,7 @@
   },
   "scripts": {
     "test": "./node_modules/.bin/mocha-chrome tests/testrunner.html",
-    "dist": "./node_modules/.bin/uglifyjs --output dist/L.Deflate.js src/L.Deflate.js --source-map",
+    "dist": "./node_modules/.bin/terser --output dist/L.Deflate.js src/L.Deflate.js --source-map",
     "lint": "./node_modules/.bin/eslint src tests",
     "preversion": "if [[ \"$(git rev-parse --abbrev-ref HEAD)\" != \"master\" ]]; then echo \"Not on master\" && exit 1; fi",
     "version": "npm run dist && git add -A ./dist",
