@@ -11,6 +11,8 @@ jobs:
     name: "Tests"
   - script: npm run lint
     name: "Lint"
+  - script: npm run dist
+    name: "Build"
   - stage: NPM release
     name: "Deploy tag"
     if: tag IS PRESENT
