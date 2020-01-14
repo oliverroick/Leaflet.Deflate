@@ -24,7 +24,7 @@ jobs:
       - PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
       - echo $PACKAGE_VERSION
       - |
-        if [[ "$PACKAGE_VERSION" != "$TRAVIS_TAG" ]]; then
+        if [[ "v$PACKAGE_VERSION" != "$TRAVIS_TAG" ]]; then
           echo "Git and NPM versions do not match. Have you updated package.json?"
           exit 1
         fi;
