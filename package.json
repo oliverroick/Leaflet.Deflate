@@ -12,12 +12,15 @@
   "bugs": "https://github.com/oliverroick/Leaflet.Deflate/issues",
   "main": "dist/L.Deflate.js",
   "source": "src/L.Deflate.js",
+  "types": "types/index.d.ts",
   "directories": {
     "test": "tests",
     "lib": "src",
     "example": "example"
   },
   "devDependencies": {
+    "@types/leaflet": "^1.5.12",
+    "@types/leaflet.markercluster": "^1.4.2",
     "eslint": "6.7.1",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
