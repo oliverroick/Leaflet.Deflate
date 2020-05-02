@@ -11,6 +11,8 @@ jobs:
     name: "Tests"
   - script: npm run lint
     name: "Lint"
+  - script: ./node_modules/.bin/tsc
+    name: "TypeScript compile"
   - script: npm run dist
     name: "Build"
   - stage: NPM release
