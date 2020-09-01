@@ -12,10 +12,8 @@ jobs:
     name: Make minified build
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Setup node
-      uses: actions/setup-node@v1
+    - name: Setup
+      uses: ./.github/actions/install
     - name: test
       run: |
         npm ci
