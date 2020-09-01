@@ -12,8 +12,14 @@ jobs:
     name: Make minified build
     runs-on: ubuntu-latest
     steps:
-    - name: Setup
-      uses: ./.github/actions/install
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 2
+    - run: git checkout HEAD^2
+      if: ${{ github.event_name == 'pull_request' }}
+    - name: Setup node
+      uses: actions/setup-node@v1
     - name: test
       run: |
         npm ci
@@ -24,8 +30,12 @@ jobs:
     name: Compile TypeScript
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
+    - name: Checkout repository
       uses: actions/checkout@v2
+      with:
+        fetch-depth: 2
+    - run: git checkout HEAD^2
+      if: ${{ github.event_name == 'pull_request' }}
     - name: Setup node
       uses: actions/setup-node@v1
     - name: test
