@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Setup
-      uses: ./.github/actions/install@${{ github.ref }}
+      uses: ./.github/actions/install
     - name: test
       run: |
         npm ci
