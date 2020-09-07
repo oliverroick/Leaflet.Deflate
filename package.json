@@ -21,7 +21,7 @@
   "devDependencies": {
     "@types/leaflet": "^1.5.12",
     "@types/leaflet.markercluster": "^1.4.2",
-    "eslint": "6.8.0",
+    "eslint": "7.8.1",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
     "mocha": "8.1.1",
