@@ -34,9 +34,9 @@
     "leaflet": "^1.0.0"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha-chrome tests/testrunner.html",
-    "dist": "./node_modules/.bin/terser --output dist/L.Deflate.js src/L.Deflate.js --source-map",
-    "lint": "./node_modules/.bin/eslint src tests",
+    "test": "mocha-chrome tests/testrunner.html",
+    "dist": "terser --output dist/L.Deflate.js src/L.Deflate.js --source-map",
+    "lint": "eslint src tests",
     "preversion": "if [[ \"$(git rev-parse --abbrev-ref HEAD)\" != \"master\" ]]; then echo \"Not on master\" && exit 1; fi",
     "version": "npm run dist && git add -A ./dist",
     "postversion": "git push && git push --tags"
