@@ -13,8 +13,10 @@ jobs:
     name: "Lint"
   - script: ./node_modules/.bin/tsc
     name: "TypeScript compile"
-  - script: npm run dist
-    name: "Build"
+  - name: "Build and test"
+    script:
+      - npm run dist
+      - npm run test-build
   - stage: NPM release
     name: "Deploy tag"
     if: tag IS PRESENT
