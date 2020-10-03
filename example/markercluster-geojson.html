@@ -29,7 +29,8 @@
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        var features = L.deflate({minSize: 20, markerCluster: true});
+        var layer = L.markerClusterGroup();
+        var features = L.deflate({minSize: 20, markerLayer: layer});
         features.addTo(map);
 
         var json = {
