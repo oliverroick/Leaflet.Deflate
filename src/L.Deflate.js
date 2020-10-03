@@ -13,9 +13,20 @@ L.Deflate = L.FeatureGroup.extend({
     L.Util.setOptions(this, options);
     this._layers = [];
     this._needsPrepping = [];
-    this._featureLayer = (options.markerCluster
-      ? L.markerClusterGroup(this.options.markerClusterOptions)
-      : L.featureGroup(options));
+    this._featureLayer = this._getFeatureLayer(options);
+  },
+
+  _getFeatureLayer: function () {
+    if (this.options.markerLayer) {
+      return this.options.markerLayer;
+    }
+
+    if (this.options.markerCluster) {
+      console.warn('The options markerCluster and markerClusterOptions will be removed in the next major version of Leaflet.Deflate. Use the markerLayer option to inject a MarkerClusterGroup instance.'); // eslint-disable-line no-console
+      return L.markerClusterGroup(this.options.markerClusterOptions);
+    }
+
+    return L.featureGroup(this.options);
   },
 
   _getBounds: function (path) {
