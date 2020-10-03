@@ -68,8 +68,9 @@ Option          | Type      | Default | Description
 `minSize`       | `int`     | `20`    | Optional. Defines the minimum width and height in pixels for a path to be displayed in its actual shape. Anything smaller than the defined `minSize` will be deflated.
 `markerType`    | `object`  | `L.marker` | Optional. Specifies the marker type to use for deflated features. Must be either `L.marker` or `L.circleMarker`.
 `markerOptions` | `object` or `function`  | `{}`    | Optional. Customize the markers of deflated features using [Leaflet marker options](http://leafletjs.com/reference-1.3.0.html#marker). If you specify `L.circleMarker` as `markerType` use [Leaflet circleMarker options](https://leafletjs.com/reference-1.3.0.html#circlemarker) instead.
-`markerCluster` | `boolean` | `false` | Indicates whether markers should be clustered. Requires [`Leaflet.MarkerCluser`](https://github.com/Leaflet/Leaflet.markercluster).
-`markerClusterOptions` | `object` | `{}`    | Optional. Customize the appearance and behaviour of clustered markers using [`Leaflet.markercluster` options](https://github.com/Leaflet/Leaflet.markercluster#options).
+`markerLayer`   | `L.featureGroup` | `L.featureGroup` | A `L.FeatureGroup` instance used to display deflate markers. Use this to realise special behaviours, such as clustering markers.
+`markerCluster` | `boolean` | `false` | Indicates whether markers should be clustered. Requires [`Leaflet.MarkerCluser`](https://github.com/Leaflet/Leaflet.markercluster). **Note:** This option is deprecated and will be removed with the next major release. Use the `markerLayer` option to inject a `MarkerClusterGroup` instance.
+`markerClusterOptions` | `object` | `{}`    | Optional. Customize the appearance and behaviour of clustered markers using [`Leaflet.markercluster` options](https://github.com/Leaflet/Leaflet.markercluster#options). **Note:** This option is deprecated and will be removed with the next major release. Use the `markerLayer` option to inject a `MarkerClusterGroup` instance.
 
 ## Examples
 
@@ -235,12 +236,13 @@ features.addTo(map);
 Using [Leaflet.Markercluster](https://github.com/Leaflet/Leaflet.markercluster>), you can cluster markers. To enable clustered markers on a map:
 
 1. Add the `Leaflet.Markercluster` libraries to the `head` section of your document as [described in the MarkerCluster documentation](https://github.com/Leaflet/Leaflet.markercluster#using-the-plugin>).
-2. Enable clustering by adding `markerCluster: true` to the options when initializing `L.deflate`.
+2. Inject a `MarkerClusterGroup` instance via the `markerLayer` option when initializing `L.deflate`.
 
 ```javascript
 const map = L.map("map").setView([51.505, -0.09], 12);
 
-const deflate_features = L.deflate({minSize: 20, markerCluster: true});
+const markerLayer = L.markerClusterGroup();
+const deflate_features = L.deflate({minSize: 20, markerLayer: markerLayer});
 deflate_features.addTo(map);
 
 const polygon = L.polygon([
