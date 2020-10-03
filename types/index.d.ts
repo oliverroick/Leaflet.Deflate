@@ -12,6 +12,7 @@ declare module 'leaflet' {
         markerOptions?: MarkerOptions | CircleMarkerOptions | MarkerOptionsFunction;
         markerClusterOptions?: MarkerClusterGroupOptions;
         markerType?: MarkerFactory | CircleMarkerFactory;
+        markerLayer?: FeatureGroup;
     }
 
     class DeflateLayer extends FeatureGroup {

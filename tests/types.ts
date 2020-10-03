@@ -1,5 +1,6 @@
 import * as L from 'leaflet';
 import 'L.Deflate';
+import 'leaflet.markercluster';
 
 const l = L.deflate({minSize: 20});
 
@@ -85,3 +86,12 @@ L.deflate({
   markerCluster: true
 });
 
+
+// Layer Injection
+L.deflate({
+  markerLayer: L.featureGroup()
+});
+
+L.deflate({
+  markerLayer: L.markerClusterGroup()
+});
