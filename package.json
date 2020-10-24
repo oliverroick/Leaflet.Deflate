@@ -26,6 +26,7 @@
     "eslint-plugin-import": "^2.18.2",
     "mocha": "8.2.0",
     "jest": "^26.5.3",
+    "leaflet": "^1.7.1",
     "mocha-chrome": "^2.2.0",
     "should": "13.2.3",
     "terser": "^5.2.1",
@@ -36,6 +37,7 @@
   },
   "scripts": {
     "test": "mocha-chrome tests/test_src.html",
+    "jest": "jest spec/*",
     "test-build": "mocha-chrome tests/test_build.html",
     "dist": "terser --output dist/L.Deflate.js src/L.Deflate.js --source-map",
     "lint": "eslint src tests",
