@@ -9,8 +9,12 @@
         "describe": false,
         "beforeEach": false,
         "afterEach": false,
+        "jest": false,
+        "test": false,
         "it": false,
-        "should": false
+        "should": false,
+        "expect": false,
+        "document": false
     },
     "rules": {
         "no-underscore-dangle": "off",
