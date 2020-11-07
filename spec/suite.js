@@ -1,6 +1,4 @@
 const L = require('leaflet');
-require('../src/L.Deflate');
-
 const {
   polygon,
   marker,
@@ -8,7 +6,7 @@ const {
   circle,
 } = require('./fixtures');
 
-describe('L.Deflate', () => {
+module.exports = () => {
   let map;
   let deflateLayer;
 
@@ -404,4 +402,4 @@ describe('L.Deflate', () => {
       expect(layer.marker.feature.properties).toEqual(layer.feature.properties);
     });
   });
-});
+};
