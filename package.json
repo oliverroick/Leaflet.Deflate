@@ -36,9 +36,7 @@
     "leaflet": "^1.0.0"
   },
   "scripts": {
-    "test": "mocha-chrome tests/test_src.html",
-    "test-build": "mocha-chrome tests/test_build.html",
-    "jest": "jest spec",
+    "test": "jest",
     "dist": "terser --output dist/L.Deflate.js src/L.Deflate.js --source-map",
     "lint": "eslint src tests",
     "preversion": "if [[ \"$(git rev-parse --abbrev-ref HEAD)\" != \"master\" ]]; then echo \"Not on master\" && exit 1; fi",

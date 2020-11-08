@@ -16,7 +16,7 @@ jobs:
   - name: "Build and test"
     script:
       - npm run dist
-      - npm run test-build
+      - TARGET=dist npm test
   - stage: NPM release
     name: "Deploy tag"
     if: tag IS PRESENT
