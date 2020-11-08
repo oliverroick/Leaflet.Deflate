@@ -11,8 +11,6 @@
         "afterEach": false,
         "jest": false,
         "test": false,
-        "it": false,
-        "should": false,
         "expect": false,
         "document": false
     },
