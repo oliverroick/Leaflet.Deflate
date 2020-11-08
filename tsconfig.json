@@ -5,6 +5,7 @@
     "removeComments": true,
     "preserveConstEnums": true,
     "outFile": "./test-output/types.js",
+    "moduleResolution": "node"
   },
   "files": [
     "./types/index.d.ts",
