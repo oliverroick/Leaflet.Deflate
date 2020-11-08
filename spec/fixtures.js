@@ -1,14 +1,4 @@
-const polygon = L.polygon([
-  [51.509, -0.08],
-  [51.503, -0.06],
-  [51.51, -0.047],
-]);
-
-const marker = L.marker([51.509, -0.08]);
-
-const circle = L.circle([51.505, -0.09], { radius: 100 });
-
-const json = L.geoJson({
+const geojson = {
   type: 'FeatureCollection',
   features: [
     {
@@ -124,11 +114,28 @@ const json = L.geoJson({
       },
     },
   ],
-});
-
-module.exports = {
-  polygon,
-  marker,
-  circle,
-  json,
 };
+
+const fixtures = {
+  get polygon() {
+    return L.polygon([
+      [51.509, -0.08],
+      [51.503, -0.06],
+      [51.51, -0.047],
+    ]);
+  },
+
+  get marker() {
+    return L.marker([51.509, -0.08]);
+  },
+
+  get circle() {
+    return L.circle([51.505, -0.09], { radius: 100 });
+  },
+
+  get geojson() {
+    return L.geoJson(geojson);
+  },
+};
+
+module.exports = fixtures;

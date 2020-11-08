@@ -1,14 +1,17 @@
 const L = require('leaflet');
-const {
-  polygon,
-  marker,
-  json,
-  circle,
-} = require('./fixtures');
+const fixtures = require('./fixtures');
 
-module.exports = () => {
+const target = process.env.TARGET || 'src';
+
+require(`../${target}/L.Deflate`); // eslint-disable-line import/no-dynamic-require
+
+const tests = (options) => () => {
   let map;
   let deflateLayer;
+  let polygon;
+  let marker;
+  let circle;
+  let json;
 
   beforeEach(() => {
     const container = document.createElement('div');
@@ -16,6 +19,11 @@ module.exports = () => {
     Object.defineProperty(container, 'clientWidth', { configurable: true, value: 800 });
 
     map = L.map(container, { renderer: new L.SVG(), center: [51.505, -0.09], zoom: 10 });
+
+    polygon = fixtures.polygon;
+    marker = fixtures.polygon;
+    circle = fixtures.circle;
+    json = fixtures.geojson;
   });
 
   afterEach(() => {
@@ -24,7 +32,7 @@ module.exports = () => {
 
   describe('add layer', () => {
     beforeEach(() => {
-      deflateLayer = L.deflate({ minSize: 20 });
+      deflateLayer = L.deflate(options);
     });
 
     test('using Map.addLayer', () => {
@@ -58,7 +66,7 @@ module.exports = () => {
 
   describe('remove layer', () => {
     beforeEach(() => {
-      deflateLayer = L.deflate({ minSize: 20 });
+      deflateLayer = L.deflate(options);
       deflateLayer.addTo(map);
       deflateLayer.addLayer(polygon);
     });
@@ -122,7 +130,7 @@ module.exports = () => {
 
   describe('clear layers', () => {
     beforeEach(() => {
-      deflateLayer = L.deflate({ minSize: 20 });
+      deflateLayer = L.deflate(options);
       deflateLayer.addTo(map);
       deflateLayer.addLayer(polygon);
     });
@@ -152,7 +160,7 @@ module.exports = () => {
 
   describe('Event listeners', () => {
     beforeEach(() => {
-      deflateLayer = L.deflate({ minSize: 20 });
+      deflateLayer = L.deflate(options);
       deflateLayer.addTo(map);
     });
 
@@ -179,7 +187,7 @@ module.exports = () => {
 
   describe('Popup', () => {
     beforeEach(() => {
-      deflateLayer = L.deflate({ minSize: 20 });
+      deflateLayer = L.deflate(options);
       deflateLayer.addTo(map);
     });
 
@@ -211,7 +219,7 @@ module.exports = () => {
 
   describe('Tooltip', () => {
     beforeEach(() => {
-      deflateLayer = L.deflate({ minSize: 20 });
+      deflateLayer = L.deflate(options);
       deflateLayer.addTo(map);
     });
 
@@ -245,19 +253,19 @@ module.exports = () => {
     const iconPath = '../example/img/marker.png';
 
     test('can be L.marker', () => {
-      deflateLayer = L.deflate({ minSize: 20, markerType: L.marker });
+      deflateLayer = L.deflate({ ...options, markerType: L.marker });
       deflateLayer.addTo(map);
       expect(() => polygon.addTo(deflateLayer)).not.toThrow();
     });
 
     test('can be L.circleMarker', () => {
-      deflateLayer = L.deflate({ minSize: 20, markerType: L.circleMarker });
+      deflateLayer = L.deflate({ ...options, markerType: L.circleMarker });
       deflateLayer.addTo(map);
       expect(() => polygon.addTo(deflateLayer)).not.toThrow();
     });
 
     test('can be L.polygon', () => {
-      deflateLayer = L.deflate({ minSize: 20, markerType: L.polygon });
+      deflateLayer = L.deflate({ ...options, markerType: L.polygon });
       deflateLayer.addTo(map);
       expect(() => polygon.addTo(deflateLayer)).toThrow();
     });
@@ -267,7 +275,7 @@ module.exports = () => {
         iconUrl: iconPath,
         iconSize: [24, 24],
       });
-      deflateLayer = L.deflate({ minSize: 20, markerOptions: { icon: myIcon } });
+      deflateLayer = L.deflate({ ...options, markerOptions: { icon: myIcon } });
       deflateLayer.addTo(map);
       polygon.addTo(deflateLayer);
 
@@ -275,13 +283,13 @@ module.exports = () => {
     });
 
     test('uses function', () => {
-      const options = () => ({
+      const markerOptions = () => ({
         icon: L.icon({
           iconUrl: iconPath,
           iconSize: [24, 24],
         }),
       });
-      deflateLayer = L.deflate({ minSize: 20, markerOptions: options });
+      deflateLayer = L.deflate({ ...options, markerOptions });
       deflateLayer.addTo(map);
       polygon.addTo(deflateLayer);
 
@@ -291,7 +299,7 @@ module.exports = () => {
 
   describe('Deflating polygon', () => {
     beforeEach(() => {
-      deflateLayer = L.deflate({ minSize: 20 });
+      deflateLayer = L.deflate(options);
       deflateLayer.addTo(map);
       deflateLayer.addLayer(polygon);
     });
@@ -328,7 +336,7 @@ module.exports = () => {
 
   describe('Deflating circle', () => {
     beforeEach(() => {
-      deflateLayer = L.deflate({ minSize: 20 });
+      deflateLayer = L.deflate(options);
       deflateLayer.addTo(map);
       deflateLayer.addLayer(circle);
     });
@@ -373,7 +381,7 @@ module.exports = () => {
     };
 
     beforeEach(() => {
-      deflateLayer = L.deflate({ minSize: 20 });
+      deflateLayer = L.deflate(options);
       deflateLayer.addTo(map);
       deflateLayer.addLayer(json);
     });
@@ -391,7 +399,7 @@ module.exports = () => {
 
   describe('GeoJSON', () => {
     beforeEach(() => {
-      deflateLayer = L.deflate({ minSize: 20 });
+      deflateLayer = L.deflate(options);
       deflateLayer.addTo(map);
       deflateLayer.addLayer(json);
     });
@@ -403,3 +411,8 @@ module.exports = () => {
     });
   });
 };
+
+describe(`Test ${target}`, () => {
+  describe('using internal deflate layer', tests({ minSize: 20 }));
+  describe('using injected deflate layer', tests({ minSize: 20, deflateLayer: L.featureGroup() }));
+});
