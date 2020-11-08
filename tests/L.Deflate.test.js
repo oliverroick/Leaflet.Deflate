@@ -92,7 +92,7 @@ const tests = (options) => () => {
       expect(map.hasLayer(polygon.marker)).toBeFalsy();
     });
 
-    it.skip('Map.removeLayer(Layer) removes marker', () => {
+    test.skip('Map.removeLayer(Layer) removes marker', () => {
       map.setZoom(10, { animate: false });
       map.removeLayer(polygon);
       expect(map.hasLayer(polygon)).toBeFalsy();
@@ -120,7 +120,7 @@ const tests = (options) => () => {
       expect(map.hasLayer(polygon.marker)).toBeFalsy();
     });
 
-    it.skip('Layer.remove() removes marker', () => {
+    test.skip('Layer.remove() removes marker', () => {
       map.setZoom(10, { animate: false });
       polygon.remove();
       expect(map.hasLayer(polygon)).toBeFalsy();
