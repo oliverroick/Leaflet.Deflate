@@ -1,5 +1,21 @@
 'use strict';
 
+L.Layer.include({
+  _originalRemove: L.Layer.prototype.remove,
+  remove: function () {
+    if (this.marker) { this.marker.remove(); }
+    return this._originalRemove();
+  },
+});
+
+L.Map.include({
+  _originalRemoveLayer: L.Map.prototype.removeLayer,
+  removeLayer: function (layer) {
+    if (layer.marker) { layer.marker.remove(); }
+    return this._originalRemoveLayer(layer);
+  },
+});
+
 L.Deflate = L.FeatureGroup.extend({
   options: {
     minSize: 10,

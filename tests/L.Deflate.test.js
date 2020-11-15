@@ -92,9 +92,23 @@ const tests = (options) => () => {
       expect(map.hasLayer(polygon.marker)).toBeFalsy();
     });
 
-    test.skip('Map.removeLayer(Layer) removes marker', () => {
+    test('Map.removeLayer(Layer) removes marker', () => {
       map.setZoom(10, { animate: false });
       map.removeLayer(polygon);
+      expect(map.hasLayer(polygon)).toBeFalsy();
+      expect(map.hasLayer(polygon.marker)).toBeFalsy();
+    });
+
+    test('L.Deflate.removeFrom(L.Map) removes layer', () => {
+      map.setZoom(13, { animate: false });
+      deflateLayer.removeFrom(map);
+      expect(map.hasLayer(polygon)).toBeFalsy();
+      expect(map.hasLayer(polygon.marker)).toBeFalsy();
+    });
+
+    test('L.Deflate.removeFrom(L.Map) removes marker', () => {
+      map.setZoom(10, { animate: false });
+      deflateLayer.removeFrom(map);
       expect(map.hasLayer(polygon)).toBeFalsy();
       expect(map.hasLayer(polygon.marker)).toBeFalsy();
     });
@@ -113,6 +127,20 @@ const tests = (options) => () => {
       expect(map.hasLayer(polygon.marker)).toBeFalsy();
     });
 
+    test('Layer.removeFrom(L.Deflate) removes layer', () => {
+      map.setZoom(13, { animate: false });
+      polygon.removeFrom(deflateLayer);
+      expect(map.hasLayer(polygon)).toBeFalsy();
+      expect(map.hasLayer(polygon.marker)).toBeFalsy();
+    });
+
+    test('Layer.removeFrom(L.Deflate) removes marker', () => {
+      map.setZoom(10, { animate: false });
+      polygon.removeFrom(deflateLayer);
+      expect(map.hasLayer(polygon)).toBeFalsy();
+      expect(map.hasLayer(polygon.marker)).toBeFalsy();
+    });
+
     test('Layer.remove() removes layer', () => {
       map.setZoom(13, { animate: false });
       polygon.remove();
@@ -120,7 +148,7 @@ const tests = (options) => () => {
       expect(map.hasLayer(polygon.marker)).toBeFalsy();
     });
 
-    test.skip('Layer.remove() removes marker', () => {
+    test('Layer.remove() removes polygon marker', () => {
       map.setZoom(10, { animate: false });
       polygon.remove();
       expect(map.hasLayer(polygon)).toBeFalsy();
