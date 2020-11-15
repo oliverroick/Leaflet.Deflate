@@ -120,7 +120,7 @@ const tests = (options) => () => {
       expect(map.hasLayer(polygon.marker)).toBeFalsy();
     });
 
-    test.skip('Layer.remove() removes marker', () => {
+    test('Layer.remove() removes polygon marker', () => {
       map.setZoom(10, { animate: false });
       polygon.remove();
       expect(map.hasLayer(polygon)).toBeFalsy();
