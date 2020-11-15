@@ -99,6 +99,20 @@ const tests = (options) => () => {
       expect(map.hasLayer(polygon.marker)).toBeFalsy();
     });
 
+    test('L.Deflate.removeFrom(L.Map) removes layer', () => {
+      map.setZoom(13, { animate: false });
+      deflateLayer.removeFrom(map);
+      expect(map.hasLayer(polygon)).toBeFalsy();
+      expect(map.hasLayer(polygon.marker)).toBeFalsy();
+    });
+
+    test('L.Deflate.removeFrom(L.Map) removes marker', () => {
+      map.setZoom(10, { animate: false });
+      deflateLayer.removeFrom(map);
+      expect(map.hasLayer(polygon)).toBeFalsy();
+      expect(map.hasLayer(polygon.marker)).toBeFalsy();
+    });
+
     test('L.Deflate.removeLayer(Layer) removes layer', () => {
       map.setZoom(13, { animate: false });
       deflateLayer.removeLayer(polygon);
@@ -109,6 +123,20 @@ const tests = (options) => () => {
     test('L.Deflate.removeLayer(Layer) removes marker', () => {
       map.setZoom(10, { animate: false });
       deflateLayer.removeLayer(polygon);
+      expect(map.hasLayer(polygon)).toBeFalsy();
+      expect(map.hasLayer(polygon.marker)).toBeFalsy();
+    });
+
+    test('Layer.removeFrom(L.Deflate) removes layer', () => {
+      map.setZoom(13, { animate: false });
+      polygon.removeFrom(deflateLayer);
+      expect(map.hasLayer(polygon)).toBeFalsy();
+      expect(map.hasLayer(polygon.marker)).toBeFalsy();
+    });
+
+    test('Layer.removeFrom(L.Deflate) removes marker', () => {
+      map.setZoom(10, { animate: false });
+      polygon.removeFrom(deflateLayer);
       expect(map.hasLayer(polygon)).toBeFalsy();
       expect(map.hasLayer(polygon.marker)).toBeFalsy();
     });
