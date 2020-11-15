@@ -8,6 +8,14 @@ L.Layer.include({
   },
 });
 
+L.Map.include({
+  _originalRemoveLayer: L.Map.prototype.removeLayer,
+  removeLayer: function (layer) {
+    if (layer.marker) { layer.marker.remove(); }
+    return this._originalRemoveLayer(layer);
+  },
+});
+
 L.Deflate = L.FeatureGroup.extend({
   options: {
     minSize: 10,
