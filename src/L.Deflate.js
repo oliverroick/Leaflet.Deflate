@@ -215,11 +215,11 @@ L.Deflate = L.FeatureGroup.extend({
 
   _switchDisplay: function (layer, showMarker) {
     if (showMarker) {
-      this._featureLayer.addLayer(layer.marker);
       this._featureLayer.removeLayer(layer);
+      this._featureLayer.addLayer(layer.marker);
     } else {
-      this._featureLayer.addLayer(layer);
       this._featureLayer.removeLayer(layer.marker);
+      this._featureLayer.addLayer(layer);
     }
   },
 
