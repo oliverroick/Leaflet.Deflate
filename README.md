@@ -69,8 +69,6 @@ Option          | Type      | Default | Description
 `markerType`    | `object`  | `L.marker` | Optional. Specifies the marker type to use for deflated features. Must be either `L.marker` or `L.circleMarker`.
 `markerOptions` | `object` or `function`  | `{}`    | Optional. Customize the markers of deflated features using [Leaflet marker options](http://leafletjs.com/reference-1.3.0.html#marker). If you specify `L.circleMarker` as `markerType` use [Leaflet circleMarker options](https://leafletjs.com/reference-1.3.0.html#circlemarker) instead.
 `markerLayer`   | `L.featureGroup` | `L.featureGroup` | A `L.FeatureGroup` instance used to display deflate markers. Use this to realise special behaviours, such as clustering markers.
-`markerCluster` | `boolean` | `false` | Indicates whether markers should be clustered. Requires [`Leaflet.MarkerCluser`](https://github.com/Leaflet/Leaflet.markercluster). **Note:** This option is deprecated and will be removed with the next major release. Use the `markerLayer` option to inject a `MarkerClusterGroup` instance.
-`markerClusterOptions` | `object` | `{}`    | Optional. Customize the appearance and behaviour of clustered markers using [`Leaflet.markercluster` options](https://github.com/Leaflet/Leaflet.markercluster#options). **Note:** This option is deprecated and will be removed with the next major release. Use the `markerLayer` option to inject a `MarkerClusterGroup` instance.
 
 ## Examples
 
