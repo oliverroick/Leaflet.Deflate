@@ -1,0 +1,7 @@
+example
+tests
+tsconfig.json
+.github
+.eslintrc.json
+.travis.yml
+test-output
