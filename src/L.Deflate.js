@@ -19,9 +19,7 @@ L.Map.include({
 L.Deflate = L.FeatureGroup.extend({
   options: {
     minSize: 10,
-    markerCluster: false,
     markerOptions: {},
-    markerClusterOptions: {},
     markerType: L.marker,
   },
 
@@ -35,11 +33,6 @@ L.Deflate = L.FeatureGroup.extend({
   _getFeatureLayer: function () {
     if (this.options.markerLayer) {
       return this.options.markerLayer;
-    }
-
-    if (this.options.markerCluster) {
-      console.warn('The options markerCluster and markerClusterOptions will be removed in the next major version of Leaflet.Deflate. Use the markerLayer option to inject a MarkerClusterGroup instance.'); // eslint-disable-line no-console
-      return L.markerClusterGroup(this.options.markerClusterOptions);
     }
 
     return L.featureGroup(this.options);
