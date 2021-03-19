@@ -81,11 +81,6 @@ L.deflate({
   }
 });
 
-// MarkerCluster
-L.deflate({ 
-  markerCluster: true
-});
-
 
 // Layer Injection
 L.deflate({
