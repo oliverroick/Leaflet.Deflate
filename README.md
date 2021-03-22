@@ -8,6 +8,8 @@ Leaflet.Deflate is a plugin for [Leaflet](https://leafletjs.com/) that improves 
 
 ![Example](https://user-images.githubusercontent.com/159510/52898557-a491d700-31df-11e9-86c4-7a585dc50372.gif)
 
+**Note:** The documentation and examples below are for Leaflet.Deflate's latest release. [Documentation of older releases is available](#previous-releases).
+
 ## Installation
 
 ### Using a hosted version
@@ -292,6 +294,18 @@ map.on(L.Draw.Event.EDITED, function(event) {
 
 ```
 
+## Previous releases
+
+Documentation for older releases is available:
+
+- [1.4.x](https://github.com/oliverroick/Leaflet.Deflate/tree/v1.4.0#leafletdeflate)
+- [1.3.x](https://github.com/oliverroick/Leaflet.Deflate/tree/v1.3.0#leafletdeflate)
+- [1.2.x](https://github.com/oliverroick/Leaflet.Deflate/tree/v1.2.0#leafletdeflate)
+- [1.1.x](https://github.com/oliverroick/Leaflet.Deflate/tree/1.1.0#leafletdeflate)
+- [1.0.x](https://github.com/oliverroick/Leaflet.Deflate/tree/1.0.0#leafletdeflate)
+- [0.3](https://github.com/oliverroick/Leaflet.Deflate/tree/v0.3#leafletdeflate)
+- [0.2](https://github.com/oliverroick/Leaflet.Deflate/tree/v0.2#leafletdeflate)
+- [0.1](https://github.com/oliverroick/Leaflet.Deflate/tree/v0.1#leafletdeflate)
 
 ## Developing
 
