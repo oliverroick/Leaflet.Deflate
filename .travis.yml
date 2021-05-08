@@ -4,7 +4,7 @@ addons:
   chrome: stable
 language: node_js
 node_js:
-  - "12"
+  - "16"
 jobs:
   include:
   - script: npm test
