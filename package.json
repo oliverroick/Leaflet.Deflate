@@ -39,5 +39,8 @@
     "preversion": "if [[ \"$(git rev-parse --abbrev-ref HEAD)\" != \"master\" ]]; then echo \"Not on master\" && exit 1; fi",
     "version": "npm run dist && git add -A ./dist",
     "postversion": "git push && git push --tags"
+  },
+  "jest": {
+    "testEnvironment": "jsdom"
   }
 }
