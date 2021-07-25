@@ -333,10 +333,6 @@ To write a minified JS into dist:
 npm run dist
 ```
 
-## Releasing
-
-[`npm version`](https://docs.npmjs.com/cli/version.html) is set up to take it all the way to npm. 
-
 ## Authors
 
 - [Lindsey Jacks](https://github.com/linzjax)
