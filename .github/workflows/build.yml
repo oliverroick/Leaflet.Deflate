@@ -1,0 +1,89 @@
+name: "Build"
+
+on: ['push', 'pull_request']
+
+env:
+  NODE: 16
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 2
+    - run: git checkout HEAD^2
+      if: ${{ github.event_name == 'pull_request' }}
+    - name: Setup node ${{ env.NODE }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE }}
+    - name: test
+      run: |
+        npm ci
+        npm test
+      env:
+        CI: true
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 2
+    - run: git checkout HEAD^2
+      if: ${{ github.event_name == 'pull_request' }}
+    - name: Setup node ${{ env.NODE }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE }}
+    - name: lint
+      run: |
+        npm ci
+        npm run lint
+      env:
+        CI: true
+  typescript:
+    name: TypeScript compile
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 2
+    - run: git checkout HEAD^2
+      if: ${{ github.event_name == 'pull_request' }}
+    - name: Setup node ${{ env.NODE }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE }}
+    - name: lint
+      run: |
+        npm ci
+        tsc
+      env:
+        CI: true
+  build-test:
+    name: Build and test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 2
+    - run: git checkout HEAD^2
+      if: ${{ github.event_name == 'pull_request' }}
+    - name: Setup node ${{ env.NODE }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE }}
+    - name: lint
+      run: |
+        npm ci
+        npm run dist
+        TARGET=dist npm test
+      env:
+        CI: true
