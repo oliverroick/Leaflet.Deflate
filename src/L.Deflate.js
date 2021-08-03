@@ -21,6 +21,7 @@ L.Deflate = L.FeatureGroup.extend({
     minSize: 10,
     markerOptions: {},
     markerType: L.marker,
+    greedyCollapse: true
   },
 
   initialize: function (options) {
@@ -62,7 +63,12 @@ L.Deflate = L.FeatureGroup.extend({
 
     const width = Math.abs(northEastPixels.x - southWestPixels.x);
     const height = Math.abs(southWestPixels.y - northEastPixels.y);
-    return (height < this.options.minSize || width < this.options.minSize);
+    
+    if (this.options.greedyCollapse) {
+      return (height < this.options.minSize || width < this.options.minSize);
+    } else {
+      return (height < this.options.minSize && width < this.options.minSize);
+    }
   },
 
   _getZoomThreshold: function (path) {
