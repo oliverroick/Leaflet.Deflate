@@ -71,6 +71,7 @@ Option          | Type      | Default | Description
 `markerType`    | `object`  | `L.marker` | Optional. Specifies the marker type to use for deflated features. Must be either `L.marker` or `L.circleMarker`.
 `markerOptions` | `object` or `function`  | `{}`    | Optional. Customize the markers of deflated features using [Leaflet marker options](http://leafletjs.com/reference-1.3.0.html#marker). If you specify `L.circleMarker` as `markerType` use [Leaflet circleMarker options](https://leafletjs.com/reference-1.3.0.html#circlemarker) instead.
 `markerLayer`   | `L.featureGroup` | `L.featureGroup` | A `L.FeatureGroup` instance used to display deflate markers. Use this to realise special behaviours, such as clustering markers.
+`greedyCollapse`| `boolean` | `true` | Specify false if you would like that features would be deflated only if both of their width and height are less than `minSize`.
 
 ## Examples
 
@@ -123,8 +124,8 @@ L.geoJson(json, {style: {color: '#0000FF'}}).addTo(deflate_features);
 
 You can change the appearance of markers representing deflated features by providing:
 
-- A [marker-options object](http://leafletjs.com/reference-1.3.0.html#marker-option), or 
-- A function that returns a marker-options object. 
+- A [marker-options object](http://leafletjs.com/reference-1.3.0.html#marker-option), or
+- A function that returns a marker-options object.
 
 Providing a marker-options object is usually sufficient. You would typically choose to provide a function if you want to base the marker appearance on the feature's properties.
 
@@ -187,7 +188,7 @@ features.addTo(map);
 
 Similar to standard markers, you can customise how circle markers are displayed using the `markerOptions` property. There are to options to provide the options for circle markers:
 
-- A [CircleMarker-options object](https://leafletjs.com/reference-1.6.0.html#circlemarker-option), or 
+- A [CircleMarker-options object](https://leafletjs.com/reference-1.6.0.html#circlemarker-option), or
 - A function that returns a CircleMarker-options object.
 
 ##### Define custom circle markers using a CircleMarker options object
@@ -263,7 +264,7 @@ polyline.addTo(deflate_features)
 
 [`Leaflet.Draw`](https://github.com/Leaflet/Leaflet.draw) is a plugin that adds support for drawing and editing vector features on Leaflet maps. `Leaflet.Deflate` integrates with `Leaflet.Draw`.
 
-Initialize the [`Leaflet.draw` control](https://leaflet.github.io/Leaflet.draw/docs/leaflet-draw-latest#l-draw). Use the `L.deflate` instance to draw and edit features and add it the map. 
+Initialize the [`Leaflet.draw` control](https://leaflet.github.io/Leaflet.draw/docs/leaflet-draw-latest#l-draw). Use the `L.deflate` instance to draw and edit features and add it the map.
 
 To ensure that newly added or edited features are deflated at the correct zoom level and show the marker at the correct location, you need to call `prepLayer` with the edited layer on every change. In the example below, we call `prepLayer` inside the handler function for the [`L.Draw.Event.EDITED`](https://leaflet.github.io/Leaflet.draw/docs/leaflet-draw-latest#l-draw-event-draw:editstop) event.
 
@@ -314,7 +315,7 @@ You'll need to install the dev dependencies to test and write the distribution f
 ```
 npm install
 ```
-    
+
 To run tests:
 
 ```
