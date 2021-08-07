@@ -125,6 +125,15 @@ const fixtures = {
     ]);
   },
 
+  get longPolygon() {
+    return L.polygon([
+      [51.503, -0.06],
+      [51.509, -0.06],
+      [51.509, -0.12],
+      [51.503, -0.12],
+    ]);
+  },
+
   get marker() {
     return L.marker([51.509, -0.08]);
   },

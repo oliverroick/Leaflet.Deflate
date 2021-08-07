@@ -9,6 +9,7 @@ const tests = (options) => () => {
   let map;
   let deflateLayer;
   let polygon;
+  let longPolygon;
   let marker;
   let circle;
   let json;
@@ -21,6 +22,7 @@ const tests = (options) => () => {
     map = L.map(container, { renderer: new L.SVG(), center: [51.505, -0.09], zoom: 10 });
 
     polygon = fixtures.polygon;
+    longPolygon = fixtures.longPolygon;
     marker = fixtures.polygon;
     circle = fixtures.circle;
     json = fixtures.geojson;
@@ -359,6 +361,69 @@ const tests = (options) => () => {
       map.panTo([51.505, -0.09], { animate: false });
       expect(map.hasLayer(polygon)).toBeTruthy();
       expect(map.hasLayer(polygon.marker)).toBeFalsy();
+    });
+  });
+
+  describe('Deflating long polygon', () => {
+    beforeEach(() => {
+      deflateLayer = L.deflate(options);
+      deflateLayer.addTo(map);
+      deflateLayer.addLayer(longPolygon);
+    });
+
+    test('polygon is not deflated', () => {
+      map.setZoom(13, { animate: false });
+      expect(map.hasLayer(longPolygon)).toBeTruthy();
+      expect(map.hasLayer(longPolygon.marker)).toBeFalsy();
+    });
+
+    test('long polygon is deflated after zooming out', () => {
+      map.setZoom(10, { animate: false });
+      expect(map.hasLayer(longPolygon)).toBeFalsy();
+      expect(map.hasLayer(longPolygon.marker)).toBeTruthy();
+    });
+
+    test('long polygon is not inflated after zooming in when outside map bbox', () => {
+      map.setZoom(10, { animate: false });
+      map.panTo([0, 0]);
+      map.setZoom(16, { animate: false });
+      expect(map.hasLayer(longPolygon)).toBeFalsy();
+      expect(map.hasLayer(longPolygon.marker)).toBeTruthy();
+    });
+
+    test('long polygon is inflated after zooming in when dragged inside map bbox', () => {
+      map.setZoom(10, { animate: false });
+      map.panTo([0, 0]);
+      map.setZoom(16, { animate: false });
+      map.panTo([51.505, -0.09], { animate: false });
+      expect(map.hasLayer(longPolygon)).toBeTruthy();
+      expect(map.hasLayer(longPolygon.marker)).toBeFalsy();
+    });
+  });
+
+  describe('Deflating long polygon with greedyCollapse = false', () => {
+    beforeEach(() => {
+      deflateLayer = L.deflate({ ...options, greedyCollapse: false });
+      deflateLayer.addTo(map);
+      deflateLayer.addLayer(longPolygon);
+    });
+
+    test('polygon is not deflated', () => {
+      map.setZoom(13, { animate: false });
+      expect(map.hasLayer(longPolygon)).toBeTruthy();
+      expect(map.hasLayer(longPolygon.marker)).toBeFalsy();
+    });
+
+    test('long polygon not is deflated after zooming out', () => {
+      map.setZoom(10, { animate: false });
+      expect(map.hasLayer(longPolygon)).toBeTruthy();
+      expect(map.hasLayer(longPolygon.marker)).toBeFalsy();
+    });
+
+    test('long polygon is deflated after zooming out', () => {
+      map.setZoom(8, { animate: false });
+      expect(map.hasLayer(longPolygon)).toBeFalsy();
+      expect(map.hasLayer(longPolygon.marker)).toBeTruthy();
     });
   });
 
