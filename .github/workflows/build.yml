@@ -61,7 +61,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-node-
     - name: Install
-      if: steps.cache-node-modules.outputs.cache-hit != 'true'
       run: npm ci
     - name: test
       run: npm test
@@ -87,7 +86,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-node-
     - name: Install
-      if: steps.cache-node-modules.outputs.cache-hit != 'true'
       run: npm ci
     - name: lint
       run: npm run lint
@@ -113,7 +111,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-node-
     - name: Install
-      if: steps.cache-node-modules.outputs.cache-hit != 'true'
       run: npm ci
     - name: lint
       run: tsc
@@ -139,7 +136,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-node-
     - name: Install
-      if: steps.cache-node-modules.outputs.cache-hit != 'true'
       run: npm ci
     - name: build and test
       run: |
