@@ -29,12 +29,14 @@ jobs:
         with:
           node-version: ${{ env.NODE }}
 
-      - name: Cache node_modules
+      - name: Cache Node Modules
         uses: actions/cache@v2
         id: cache-node-modules
         with:
           path: node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package.json') }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: Install
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
@@ -50,20 +52,14 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ env.NODE }}
-    - name: Cache node modules
-      id: cache-node-modules
+    - name: Cache Node Modules
       uses: actions/cache@v2
-      env:
-        cache-name: cache-node-modules
+      id: cache-node-modules
       with:
-        path: |
-          node_modules
-          /home/runner/.cache/Cypress
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+        path: node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
-          ${{ runner.os }}-build-
-          ${{ runner.os }}-
+          ${{ runner.os }}-node-
     - name: Install
       if: steps.cache-node-modules.outputs.cache-hit != 'true'
       run: npm ci
@@ -82,20 +78,14 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ env.NODE }}
-    - name: Cache node modules
-      id: cache-node-modules
+    - name: Cache Node Modules
       uses: actions/cache@v2
-      env:
-        cache-name: cache-node-modules
+      id: cache-node-modules
       with:
-        path: |
-          node_modules
-          /home/runner/.cache/Cypress
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+        path: node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
-          ${{ runner.os }}-build-
-          ${{ runner.os }}-
+          ${{ runner.os }}-node-
     - name: Install
       if: steps.cache-node-modules.outputs.cache-hit != 'true'
       run: npm ci
@@ -114,20 +104,14 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ env.NODE }}
-    - name: Cache node modules
-      id: cache-node-modules
+    - name: Cache Node Modules
       uses: actions/cache@v2
-      env:
-        cache-name: cache-node-modules
+      id: cache-node-modules
       with:
-        path: |
-          node_modules
-          /home/runner/.cache/Cypress
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+        path: node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
-          ${{ runner.os }}-build-
-          ${{ runner.os }}-
+          ${{ runner.os }}-node-
     - name: Install
       if: steps.cache-node-modules.outputs.cache-hit != 'true'
       run: npm ci
@@ -146,22 +130,16 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ env.NODE }}
-    - name: Cache node modules
-      id: cache-node-modules
+    - name: Cache Node Modules
       uses: actions/cache@v2
-      env:
-        cache-name: cache-node-modules
+      id: cache-node-modules
       with:
-        path: |
-          node_modules
-          /home/runner/.cache/Cypress
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+        path: node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
-          ${{ runner.os }}-build-
-          ${{ runner.os }}-
+          ${{ runner.os }}-node-
     - name: Install
-      if: steps.cache-node-modules.outputs.cache-hit != 'true'
+      if: steps.cache-node-modules.outputs.cache-hit != 'true'    
       run: npm ci
     - name: build and test
       run: |
