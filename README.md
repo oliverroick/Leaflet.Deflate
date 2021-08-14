@@ -299,6 +299,7 @@ map.on(L.Draw.Event.EDITED, function(event) {
 
 Documentation for older releases is available:
 
+- [2.0.x](https://github.com/oliverroick/Leaflet.Deflate/tree/v2.0.0#leafletdeflate)
 - [1.4.x](https://github.com/oliverroick/Leaflet.Deflate/tree/v1.4.0#leafletdeflate)
 - [1.3.x](https://github.com/oliverroick/Leaflet.Deflate/tree/v1.3.0#leafletdeflate)
 - [1.2.x](https://github.com/oliverroick/Leaflet.Deflate/tree/v1.2.0#leafletdeflate)
